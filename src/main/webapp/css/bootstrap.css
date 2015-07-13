@@ -300,6 +300,10 @@ a:focus {
   padding:15px;
 }
 
+.span13 {
+  width: 940px;
+}
+
 .span12 {
   width: 940px;
 }
@@ -325,7 +329,7 @@ a:focus {
 }
 
 .span6 {
-  width: 460px;
+  width: 400px;
 }
 
 .span5 {
@@ -333,7 +337,7 @@ a:focus {
 }
 
 .span4 {
-  width: 300px;
+  width: 335px;
 }
 
 .span3 {
@@ -3116,8 +3120,9 @@ table th[class*="span"],
 }
 
 .well {
-  min-height: 20px;
-  padding: 19px;
+	margin-left:40px;
+  	min-height: 20px;
+  padding: 4px;
   margin-bottom: 20px;
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;

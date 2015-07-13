@@ -1,0 +1,16 @@
+.contenedorVideoFotox{
+	
+	width: 335px;	  
+	float: left;
+	caption-side: top; 
+	clear: inherit; 
+	clip: inherit;
+	heigth: 300px;
+}
+
+#titulo{ font-size: 12pt; font-weight: bold;}
+
+#video, #micanvas{
+    width: 400px;    
+    /*border: 1px solid #008000;*/
+}

@@ -21,11 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-public class EntradaSalidaController {
+public class loginCon {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    @RequestMapping(value="/entradaSalida.htm")
+    @RequestMapping(value="/login.htm")
     public ModelAndView handleRequest(String cedula, String foto, String observacion, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();

@@ -54,30 +54,41 @@ $(document).ready(
     }    
 );
             
-//Temporizador para poner la hora en pantalla de acuerdo a la q tiene el servidor web
-
-function hora(){
-    var hora=fecha.getHours();                
-
-    if (hora > 12){
+function getHora(dateHour){
+	
+	var hora=dateHour.getHours();
+	
+	if (hora > 12){
         hora = hora -12;
         periodo = 'pm';
     }else{
         periodo = 'am';
     }
 
-    var minutos=fecha.getMinutes();
-    var segundos=fecha.getSeconds();
+    var minutos=dateHour.getMinutes();
+    var segundos=dateHour.getSeconds();
 
     if(hora<10){ hora='0'+hora;}
     if(minutos<10){minutos='0'+minutos; }
     if(segundos<10){ segundos='0'+segundos; }
-    fech=hora+":"+minutos+":"+segundos;
-    document.getElementById('hora').innerHTML= "Hora: " + fech + " " + periodo ;
-    fecha.setSeconds(fecha.getSeconds()+1);
-    setTimeout("hora()",1000);
-        
-    document.getElementById('fecha').innerHTML= "Fecha: " + fecha.getDate() + "/" + (fecha.getMonth() +1) + "/" + fecha.getFullYear();
+    tiempo=hora+":"+minutos+":"+segundos + ' ' + periodo;
+    return tiempo;
+}
+
+//Temporizador para poner la hora en pantalla de acuerdo a la q tiene el servidor web
+function temporizador(){
+	
+	tiempo = getHora(fechaHora);
+    document.getElementById('hora').innerHTML= "Hora: " + tiempo;
+    fechaHora.setSeconds(fechaHora.getSeconds()+1);
+    setTimeout("temporizador()",1000);        
+    document.getElementById('fecha').innerHTML= "Fecha: " + fechaHora.getDate() + "/" + (fechaHora.getMonth() +1) + "/" + fechaHora.getFullYear();
+    
+    //alert(ultimoAcceso + ' ' + getHora(ultimoAcceso));
+    
+    if (document.getElementById('ultimoAcceso') != null){
+    	document.getElementById('ultimoAcceso').innerHTML = getHora(ultimoAcceso);	
+    }
     
 }
 
@@ -90,7 +101,7 @@ function actualiza_pagina(pValor){
         timerID = setTimeout("actualiza_pagina(true)", 240000);
     }else{
         document.getElementById("cedula").value = "";                    
-        form = document.getElementById("control_acceso_con");                    
+        form = document.getElementById("entradaSalida");                    
         form.submit();
     }
 
@@ -110,11 +121,11 @@ function enviar(){
     cxt = oFoto[0].getContext('2d');
     cxt.drawImage(oCamara[0], 0, 0, w, h);
 
-    fotoTXT = document.getElementById("fotoTXT");
-    fotoTXT.value = canvas.toDataURL("image/jpeg", 0.8 )||canvas.toDataURL("image/jpeg");
+    foto = document.getElementById("foto");
+    foto.value = canvas.toDataURL("image/jpeg", 0.8 )||canvas.toDataURL("image/jpeg");
 
-    //alert(fotoTXT.value );
-    form = document.getElementById("control_acceso_con");                    
+    //alert(foto.value );
+    form = document.getElementById("entradaSalida");                    
     form.submit();                 
 }
 
@@ -122,7 +133,7 @@ function ocultar_mostrar(event){
 
     actualiza_pagina(false);//Reiniciar el contador de actualización de la pagina
 
-        document.getElementById('AlertaNoCedula').style.display = 'none';
+    document.getElementById('AlertaNoCedula').style.display = 'none';
     document.getElementById('resultado').style.display = 'none';
     document.getElementById('contenedorFoto').style.display = 'none';
     document.getElementById('contenedorVideo').style.display = 'block';

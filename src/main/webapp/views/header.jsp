@@ -16,14 +16,14 @@
 		<%=html.escribirJS(js, httpServletRequest) %>
 		<%=html.escribirCSS(css, httpServletRequest) %>
 
-        <title><?php echo $titulo_pagina ?></title>
+        <title>${contenido.tituloPagina}</title>
     </head>
     <body>	
     
         <br>   
             <div class="container bg-container">
                 <div>
-                    <img src="<?php echo $config->ruta_imagenes; ?>cintillo WEB ministerio Juventud Bicentenaria-1.jpg"  /> 
+                    <img src="imagenes/cintillo.png"  /> 
 
                 </div>
             </div>

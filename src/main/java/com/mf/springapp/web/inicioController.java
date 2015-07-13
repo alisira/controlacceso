@@ -49,9 +49,9 @@ public class inicioController {
 	    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Caracas"),l);
 	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
-	    	
-	    	String js[] = {"jquery-2.1.4.min","entradaSalida"};        
-	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso"};
+
+	    	String js[] = {"jquery-2.1.4.min", "inicio"};        
+	        String css[] = {"bootstrap", "global_admin" ,"styleIE"};
 	        
 	        contenido.put("tituloPagina", "Bienvenidos al SIGEFIRRHH version 5");
 	        contenido.put("js", js);

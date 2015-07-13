@@ -12,6 +12,7 @@
 %>
         
 <html xmlns="http://www.w3.org/1999/xhtml">
+	<meta charset="utf-8" /> 
     <head>
 		<%=html.escribirJS(js, httpServletRequest) %>
 		<%=html.escribirCSS(css, httpServletRequest) %>

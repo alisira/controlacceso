@@ -19,28 +19,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mf.controlacceso.helpers.Propiedades;
+
 
 @Controller
-public class inicioController {
+public class InicioController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-
+	private Propiedades propiedades;
+	
     @RequestMapping(value="/inicio.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();
-    	String vista = "login.jsp";
+    	String vista = null;
     	
     	try{
-	    	    	
+    		
 	    	String mensaje = null;
 
 	    	Map objetoValidacion = new HashMap();
 	    	
-	        if (!reglaValidacion(objetoValidacion)){
+	       /* if (!reglaValidacion(objetoValidacion)){
             	mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
             	contenido.put("mensaje", mensaje);
-            }
+            }*/
+	        
+	        propiedades = new Propiedades();
+	        System.out.println(propiedades.getAmbiente());
+	        vista = "login.jsp";
 	        
     	}catch (Exception e){
     		logger.error(null, e);

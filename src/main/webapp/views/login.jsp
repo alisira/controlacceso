@@ -29,7 +29,7 @@ $_SESSION['ambiente'] = $ambiente;
         <tr>
             <td id ="rowdinamico" width="28%" rowspan="7">
                 <div align="center">
-                    <img src="<?php echo $config->ruta_imagenes; ?>gpg.png" width="64" height="64" />
+                    <img src="imagenes/gpg.png" width="64" height="64" />
                 </div>
             </td>
             <td height="20" class="etiqueta01">

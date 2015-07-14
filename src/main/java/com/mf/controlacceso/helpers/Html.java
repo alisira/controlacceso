@@ -2,7 +2,7 @@ package com.mf.controlacceso.helpers;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class html {
+public class Html {
 
 	public static String escribirJS(String[] js, HttpServletRequest request){
 		

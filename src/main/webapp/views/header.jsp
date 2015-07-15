@@ -41,11 +41,7 @@
                                 </td>
 
                                 <td width="62%" class="sombra2">
-                                    <div align="left">&nbsp;[
-                                        <?php
-                                        echo $ambiente;
-                                        ?>
-                                        ]:
+                                    <div align="left">&nbsp;[<c:out value="${contenido.ambiente}"/> ]:
 
                                     </div>                                    
                                 </td>        

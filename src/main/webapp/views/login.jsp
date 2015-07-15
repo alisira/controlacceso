@@ -1,6 +1,4 @@
-<?php
-$_SESSION['ambiente'] = $ambiente;
-?>
+
 <br><br>
 <div class="span3" style="height: 60px"></div>
 

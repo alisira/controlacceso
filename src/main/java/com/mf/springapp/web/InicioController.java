@@ -33,7 +33,8 @@ public class InicioController {
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();
     	String vista = null;
-    	
+    	String ambiente = null;
+    			
     	try{
     		
 	    	String mensaje = null;
@@ -45,8 +46,10 @@ public class InicioController {
             	contenido.put("mensaje", mensaje);
             }*/
 	        
+	    	//System.out.println("Ruta en inicio controller: " + this.getClass().getClassLoader().getResource("").getPath());
+	    	
 	        propiedades = new Propiedades();
-	        System.out.println(propiedades.getAmbiente());
+	        ambiente  =  propiedades.getAmbiente();
 	        vista = "login.jsp";
 	        
     	}catch (Exception e){
@@ -63,7 +66,8 @@ public class InicioController {
 	        contenido.put("tituloPagina", "Bienvenidos al SIGEFIRRHH version 5");
 	        contenido.put("js", js);
 	        contenido.put("css", css);
-	        contenido.put("vista", vista);	        
+	        contenido.put("ambiente", ambiente);
+	        contenido.put("vista", vista);
 	        contenido.put("fechaHora", fechaHora);	        
     	}
     	

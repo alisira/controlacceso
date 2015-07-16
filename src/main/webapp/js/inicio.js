@@ -1,10 +1,10 @@
 $(document).ready(function(){
     $("#sumitir").click(function() {
-        login = $("#login").val();
+        login = $("#loginTxt").val();
         password = $("#password").val();
         validacion_login = /^[a-z\d_]{3,14}$/;
         validacion_password = /^[a-z\d_]{3,14}$/;
-
+      
         if (login == "" || !validacion_login.test(login)){
             $("#login").focus();
             alert('Login Invalido, Favor Corregir');

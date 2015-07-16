@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mf.controlacceso.helpers.Propiedades;
+import com.mf.controlacceso.helpers.Configuracion;
 
 
 @Controller
 public class InicioController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-	private Propiedades propiedades;
+	private Configuracion propiedades;
 	
     @RequestMapping(value="/inicio.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
@@ -34,12 +34,13 @@ public class InicioController {
     	Map<String, Object> contenido = new HashMap<String, Object>();
     	String vista = null;
     	String ambiente = null;
-    			
+    	System.out.println(3441234);
     	try{
     		
 	    	String mensaje = null;
 
 	    	Map objetoValidacion = new HashMap();
+	    	
 	    	
 	       /* if (!reglaValidacion(objetoValidacion)){
             	mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
@@ -48,8 +49,8 @@ public class InicioController {
 	        
 	    	//System.out.println("Ruta en inicio controller: " + this.getClass().getClassLoader().getResource("").getPath());
 	    	
-	        propiedades = new Propiedades();
-	        ambiente  =  propiedades.getAmbiente();
+	        
+	        ambiente  =  Configuracion.getAmbiente();
 	        vista = "login.jsp";
 	        
     	}catch (Exception e){
@@ -60,7 +61,7 @@ public class InicioController {
 	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
 
-	    	String js[] = {"jquery-2.1.4.min", "inicio"};        
+	    	String js[] = {"jquery-2.1.4.min", "comun", "inicio"};        
 	        String css[] = {"bootstrap", "global_admin" ,"styleIE"};
 	        
 	        contenido.put("tituloPagina", "Bienvenidos al SIGEFIRRHH version 5");

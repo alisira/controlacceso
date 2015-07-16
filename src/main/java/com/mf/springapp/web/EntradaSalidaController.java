@@ -81,7 +81,7 @@ public class EntradaSalidaController {
 	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
 	    	
-	    	String js[] = {"jquery-2.1.4.min","entradaSalida"};        
+	    	String js[] = {"jquery-2.1.4.min","entradaSalida", "comun"};        
 	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso"};
 	        
 	        contenido.put("tituloPagina", "Control de Entrada y Salida del Personal");

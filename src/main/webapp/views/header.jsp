@@ -46,8 +46,8 @@
                                     </div>                                    
                                 </td>        
 
-                                <td width="28%" class="sombra2" align="right">
-                                    <?php echo $this->funciones->print_fecha() ?>
+                                <td width="28%" class="sombra2" align="right">                                    
+                                    <script>document.write(getFecha('<c:out value="${contenido.fechaHora}"/>'));</script>
                                 </td>              
                             </tr>
                         </table>

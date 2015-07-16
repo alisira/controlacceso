@@ -33,6 +33,8 @@ public class loginCon {
     	String visibleFoto = "none";
     	String visibleVideo = "block";
     	
+    	System.out.println(1123);
+    	
     	try{
 	    	
 	    	String nombreApellido = "";    	

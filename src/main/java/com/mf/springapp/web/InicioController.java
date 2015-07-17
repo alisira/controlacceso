@@ -26,9 +26,7 @@ import com.mf.controlacceso.helpers.Configuracion;
 public class InicioController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-	private Configuracion propiedades;
-	
-    @RequestMapping(value="/inicio.htm")
+	@RequestMapping(value="/inicio.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();

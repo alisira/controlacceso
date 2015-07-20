@@ -1,9 +1,11 @@
 package com.mf.springapp.web;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -19,42 +21,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mf.controlacceso.helpers.Configuracion;
+import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.imple.UsuarioDAOImple;
+import com.mf.controlacceso.modelo.Usuario;
+import com.mf.controlacceso.servicio.Configuracion;
+import com.mf.controlacceso.servicio.PingService;
 
 
 @Controller
 public class InicioController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-	private Configuracion propiedades;
 	
-    @RequestMapping(value="/inicio.htm")
+	@RequestMapping(value="/inicio.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();
     	String vista = null;
     	String ambiente = null;
-    	System.out.println(3441234);
+    	
     	try{
+    		ambiente  =  Configuracion.getAmbiente();  
+    		reglaValidacion(null);
+    		vista = "login.jsp";
     		
-	    	String mensaje = null;
-
-	    	Map objetoValidacion = new HashMap();
-	    	
-	    	
-	       /* if (!reglaValidacion(objetoValidacion)){
-            	mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
-            	contenido.put("mensaje", mensaje);
-            }*/
+    		Usuario user = new Usuario();
+    		user.setEstatus("A");
+    		
+    		UsuarioDAO usuarioDAO = new UsuarioDAOImple();
+    		
+			List<Usuario> listadoUsuario= (List) usuarioDAO.listar(user);
+			
+			System.out.println(listadoUsuario.size());
+    		
 	        
-	    	//System.out.println("Ruta en inicio controller: " + this.getClass().getClassLoader().getResource("").getPath());
-	    	
-	        
-	        ambiente  =  Configuracion.getAmbiente();
-	        vista = "login.jsp";
-	        
+    	}catch (SQLException e){
+    		logger.error("SQLException: ", e);
+    		String mensaje = "Problema de Conexion con la Base de Datos favor notificar al administrador, gracias";
+        	contenido.put("mensaje", mensaje);
+        	vista = "resultado.jsp";
     	}catch (Exception e){
-    		logger.error(null, e);
+    		logger.error("Exception: ", e);
+    		String mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
+        	contenido.put("mensaje", mensaje);
+        	vista = "resultado.jsp";
     	}finally{
     		Locale l = new Locale("es","VE");
 	    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Caracas"),l);
@@ -76,69 +86,14 @@ public class InicioController {
     }
     
     
-    private boolean reglaValidacion(Map datos){
+    private boolean reglaValidacion(Map datos) throws SQLException{
+
+    	PingService ps = new PingService();
     	
-    	//Esto sirve por si se quiere validar la conectividad cada vez q se instancia por si se pierde conexion con la db
-        /*if (!$this->Utilidades_db_mod->ambiente[0]) {           
-            $this->data['title'] = "Error de Conectividad";
-            $this->data['contenido'] = 'nocnn_view';
-            $this->data['js'] = array('');
-            $this->data['css'] = array('');
-            */
+    	ps.pingWebDB();    	
     	
-    	
-    	if (((String)datos.get("cedula")).length() < 1 ) {
-    		//throw new RuntimeException("cedula vacia");
-    		return false;
-    	}
-    	if (((String)datos.get("foto")).length() < 1 ) {
-    		//throw new RuntimeException("foto vacia");
-    		return false;
-    	}
     	return true;
     }
 	
-/*
 
-class Inicio_con extends CI_Controller {
-
-    public function __construct() {
-        parent::__construct();
-        $this->load->model('Utilidades_db_mod');
-        $this->load->model('configuracion_mod');
-        $this->load->library('funciones');
-        $this->load->helper('form','url');
-
-        //Parametros comunes en todos los metodos
-        $this->data['ambiente'] = $this->Utilidades_db_mod->ambiente[1];
-        $this->data['config'] = $this->configuracion_mod;
-        $this->data['titulo_pagina'] = $this->configuracion_mod->titulo_sistema;
-        
-    }
-    
-    public function __destruct() {
-        $this->Utilidades_db_mod=null;
-        $this->configuracion_mod = null;
-        $this->data = null;
-    }
-
-    public function index($page = 'home') {
-        
-        //Esto sirve por si se quiere validar la conectividad cada vez q se instancia por si se pierde conexion con la db
-        if (!$this->Utilidades_db_mod->ambiente[0]) {
-            $this->data['ambiente'] = '';
-            $this->data['title'] = "Error de Conectividad";
-            $this->data['contenido'] = 'nocnn_view';
-            $this->data['js'] = array('');
-            $this->data['css'] = array('');
-            
-        } else {
-            $this->data['contenido'] = 'login_view';
-            $this->data['js'] = array('jqmin.js', 'jquery.js', 'menu_view.js', 'login_view.js');
-            $this->data['css'] = array('bootstrap.css','global_admin.css', 'styleIE.css');
-        }   
-        $this->load->view('templates/plantilla', $this->data);
-    }
-}
-*/
 }

@@ -32,7 +32,7 @@ import com.mf.controlacceso.servicio.PingService;
 public class InicioController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-	
+
 	@RequestMapping(value="/inicio.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	

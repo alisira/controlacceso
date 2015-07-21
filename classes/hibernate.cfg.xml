@@ -5,6 +5,6 @@
     <property name="connection.datasource">java:/comp/env/jdbc/DBPoolSigefirrhh</property> 
     <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.show_sql">true</property>   
-    <mapping class="com.mf.controlacceso.modelo.Usuario"/>        
+    <mapping class="com.mf.controlacceso.modelo.Usuario2"/>
   </session-factory>
 </hibernate-configuration>

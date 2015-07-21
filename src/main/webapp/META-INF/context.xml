@@ -16,5 +16,21 @@
             username="postgres"
             url="jdbc:postgresql://localhost/oncop"
             maxActive="20"/>
+            
+<Resource
+            auth="Container"
+            description="DB Connection Pooling"
+            name="jdbc/DBPoolWF"
+            type="javax.sql.DataSource"
+            driverClassName="org.postgresql.Driver"
+            password="postgres"
+            maxIdle="15"
+            maxWait="10000"
+            removeAbandoned="true"           
+            removeAbandonedTimeout="300"     
+            logAbandoned="true"              
+            username="postgres"
+            url="jdbc:postgresql://localhost/wf"
+            maxActive="20"/>            
 
 </Context>

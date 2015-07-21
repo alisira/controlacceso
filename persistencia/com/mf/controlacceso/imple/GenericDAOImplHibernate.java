@@ -1,41 +1,49 @@
 package com.mf.controlacceso.imple;
 
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.mf.controlacceso.dao.GenericDAO;
 import com.mf.hibernate.util.HibernateUtil;
 
 
-public class GenericDAOImplHibernate implements GenericDAO {
-
-    SessionFactory sessionFactory;
+public class GenericDAOImplHibernate implements GenericDAO {    
+    
+    private Map<String, SessionFactory> sessionFactory = new HashMap<String, SessionFactory>();
 
     private final static Logger LOGGER = Logger.getLogger(GenericDAOImplHibernate.class.getName());
 
     public GenericDAOImplHibernate() {
-        sessionFactory=HibernateUtil.getSessionFactory();
+        sessionFactory=HibernateUtil.getSessionFactory();        
     }    
 
     public void saveOrUpdate(Object entity)  {
-    	Session session = sessionFactory.getCurrentSession();
+    	Session session =  asignaSession(entity);
     	session.beginTransaction();
         session.saveOrUpdate(entity);
         session.getTransaction().commit();
     }
     
-    public List listar(Object entity)  {//Recuerda ponerlo en la interface
-    	Session session = sessionFactory.getCurrentSession();
+    public List listar(Object entity)  {
+    	Session session =  asignaSession(entity);
+    	
     	session.beginTransaction();
     	
 		List lista =null;
@@ -104,6 +112,25 @@ public class GenericDAOImplHibernate implements GenericDAO {
 		
     }
 
+    private Session asignaSession(Object entity){    	
+    	Session session = null;    	
+    	SessionFactory sessionFactoryTemp = null;
+
+    	Iterator<String> it = sessionFactory.keySet().iterator();
+
+    	while(it.hasNext()){
+    		String bd = (String) it.next();
+
+    		sessionFactoryTemp = sessionFactory.get(bd);
+    		if (sessionFactoryTemp.getClassMetadata(entity.getClass()) != null){
+    			session = sessionFactoryTemp.getCurrentSession();
+    			break;
+    		}
+    	}
+    	
+    	return session;
+    }
+    
 	public void create() {
 		// TODO Auto-generated method stub		
 	}

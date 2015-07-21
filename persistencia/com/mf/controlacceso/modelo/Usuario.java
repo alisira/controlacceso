@@ -12,9 +12,6 @@ import javax.persistence.Table;
 @Table(name="usuario")
 public class Usuario implements Serializable  {
     
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 5837444858026193720L;
 
 	@Id
@@ -65,9 +62,6 @@ public class Usuario implements Serializable  {
     
     @Column(name="administrador")
     private boolean administrador;
-    
-    @Column(name="id_instalacion")
-    private Integer id_instalacion;
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -195,14 +189,6 @@ public class Usuario implements Serializable  {
 
 	public void setAdministrador(boolean administrador) {
 		this.administrador = administrador;
-	}
-
-	public Integer getId_instalacion() {
-		return id_instalacion;
-	}
-
-	public void setId_instalacion(Integer id_instalacion) {
-		this.id_instalacion = id_instalacion;
 	}
 
 }

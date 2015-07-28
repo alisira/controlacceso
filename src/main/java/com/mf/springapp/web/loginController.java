@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -19,62 +20,106 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.facade.sistema.SistemaFacade;
+import com.mf.controlacceso.imple.UsuarioDAOImple;
+import com.mf.controlacceso.modelo.Usuario;
+
 
 @Controller
 public class loginController {
 
     protected final Log logger = LogFactory.getLog(getClass());
+    private SistemaFacade sistemaFacade = new SistemaFacade();
 
     @RequestMapping(value="/login.htm")
-    public ModelAndView handleRequest(String cedula, String foto, String observacion, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
+    public ModelAndView handleRequest(String loginTxt, String password, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();
-    	String vista = "principal.jsp";
-    	String visibleFoto = "none";
-    	String visibleVideo = "block";
+    	String vista = null;    	
     	
     	try{
 	    	
-	    	String nombreApellido = "";    	
+	    	    	
 	    	String mensaje = null;
 
 	    	Map objetoValidacion = new HashMap();
-	    	objetoValidacion.put("cedula", cedula);
-	    	objetoValidacion.put("foto", foto);
+	    	objetoValidacion.put("login", loginTxt);
+	    	objetoValidacion.put("password", password);
 	    	
 	        if (reglaValidacion(objetoValidacion)){
 	
-	            //$resultado = $this->control_acceso_mod->insertarCA($cedula, $observacion, $fotoTXT, $id_instalacion);
-		    	boolean resultado = true;
-		    	boolean entrada = false;
-		    	
-	            if (resultado) {
-	    	    	visibleFoto = "block";
-	    	    	visibleVideo = "none";
+	            Usuario usuarioTemp = new Usuario();
+	            usuarioTemp.setLogin(loginTxt);
+	            usuarioTemp.setPassword(MD5(password));
+	            usuarioTemp.setEstatus("A");
+	        	
+	            Usuario usuario = sistemaFacade.validarUsuario(usuarioTemp);
+	        	if (usuario !=null){
+	        		if (usuario.getEstatus().equals("A")){
+	        			vista = "principal.jsp";
+	        		}else{
+	        			mensaje = "Usuario Inactivo, Comuniquese con el administrador";
+		            	contenido.put("mensaje", mensaje);
+		            	vista = "login.jsp";
+	        		}
+
+	                //$this->data['contenido'] = 'login_view';
+	                //$this->data['menu'] = '';
+	                //$this->data['mensaje'] = '';
+	                //$valida1 = $this->usuario_mod->validar_usuario($login, $pass);
+	                
+	                
+	        		/*if ($valida1) {
+	                    $valida2 = $this->menu_mod->opcionMenu($login);
+	                    if (count($valida2) > 0) {
+	                        $this->data['mensaje'] = "Acceso exitoso";
+	                        $this->data['title'] = "Pagina Principal";
+	                        $this->data['opciones_menu'] = $valida2;
+	                        $this->data['contenido'] = 'principal_view';
+	                        $this->data['mensaje'] = 'Bienvenido al sistema control de acceso';
+	                        $usuario = $this->usuario_mod->usuario($login);
+	                        $id_instalacion = $usuario['id_instalacion'];
+	                        $_SESSION['id_instalacion'] = $id_instalacion;
+	                        $_SESSION['login'] = $login;
+
+	                        $this->data['alto_menu'] = '5px';
+	                        $_SESSION['opciones_menu'] = $this->data['opciones_menu'];
+	                        $this->data['salir'] = $this->configuracion_mod->logoff;
+	                    } else {
+	                        $this->data['mensaje'] = "Error No Tiene Procesos Asignados, consulte al administrador";                
+	                        $this->data['contenido'] = 'login_view';                
+	                    }
+	                } else {
+	                    $this->data['mensaje'] = "Datos Invalidos favor corregir, gracias";
+	                    $this->data['contenido'] = 'login_view';            
+	                }
+	                $this->load->view('templates/plantilla', $this->data);
+	            }*/	        	
+	        		
+	        	//$resultado = $this->control_acceso_mod->insertarCA($cedula, $observacion, $fotoTXT, $id_instalacion);
 	                
 	                //$empleado = $this->empleado_mod->empleado($cedula);
-	    	    	nombreApellido = "Ali Sira";
+
 	    	    	
-	    	    	if ( (int)(Math.random()*(1-0+1)+0)  == 0){
-	    	    		entrada = true;	
-	    	    	}else{
-	    	    		entrada = false;
-	    	    	}
 	    	    	
-	    	    	contenido.put("foto", foto);
-			        contenido.put("nombreApellido", nombreApellido);
-			        contenido.put("entrada", entrada);
 	                
 	            } else {
-	            	mensaje = "Empleado No Est&aacute; Registrado, Favor Revisar";
+	            	mensaje = "Usuario o contraseña invalida, Favor Revisar";
+	            	contenido.put("mensaje", mensaje);
+	            	vista = "login.jsp";
 	            }
 		    	
-		    	contenido.put("mensaje", mensaje);
+		    	
 	        
 	        }
         
     	}catch (Exception e){
-    		e.printStackTrace();
+    		logger.error("Exception: ", e);
+    		String mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
+        	contenido.put("mensaje", mensaje);
+        	vista = "resultado.jsp";
+    	
     	}finally{
     		Locale l = new Locale("es","VE");
 	    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Caracas"),l);
@@ -87,9 +132,7 @@ public class loginController {
 	        contenido.put("tituloPagina", "Control de Entrada y Salida del Personal");
 	        contenido.put("js", js);
 	        contenido.put("css", css);
-	        contenido.put("vista", vista);
-	        contenido.put("visibleFoto", visibleFoto);
-	        contenido.put("visibleVideo", visibleVideo);
+	        contenido.put("vista", vista);	        
 	        contenido.put("fechaHora", fechaHora);	        
     	}
     	
@@ -99,15 +142,30 @@ public class loginController {
     
     private boolean reglaValidacion(Map datos){
     	
-    	if (((String)datos.get("cedula")).length() < 1 ) {
-    		//throw new RuntimeException("cedula vacia");
-    		return false;
+    	if ((String)datos.get("login") == null ||  ((String)datos.get("login")).length() < 1 ) {
+    		throw new RuntimeException("login vacio");
     	}
-    	if (((String)datos.get("foto")).length() < 1 ) {
-    		//throw new RuntimeException("foto vacia");
-    		return false;
+    	if ((String)datos.get("password") == null || ((String)datos.get("password")).length() < 1 ) {
+    		throw new RuntimeException("Password vacio");
     	}
     	return true;
     }
+    
+
+    public String MD5(String md5) {
+    	try {
+    		java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+    		byte[] array = md.digest(md5.getBytes());
+    		StringBuilder sb = new StringBuilder();
+    		for (int i = 0; i < array.length; ++i) {
+    			sb.append(
+    					Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+    		}
+    		return sb.toString();
+    	} catch (java.security.NoSuchAlgorithmException e) {
+    	}
+    	return null;
+    }    
+    
     
 }

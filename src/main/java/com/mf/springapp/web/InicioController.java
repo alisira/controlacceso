@@ -45,14 +45,7 @@ public class InicioController {
     		reglaValidacion(null);
     		vista = "login.jsp";
     		
-    		Usuario user = new Usuario();
-    		user.setEstatus("A");
     		
-    		UsuarioDAO usuarioDAO = new UsuarioDAOImple();
-    		
-			List<Usuario> listadoUsuario= (List) usuarioDAO.listar(user);
-			
-			System.out.println(listadoUsuario.size());
     		
 	        
     	}catch (SQLException e){

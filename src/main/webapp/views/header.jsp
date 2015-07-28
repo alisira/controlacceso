@@ -20,35 +20,42 @@
 
         <title>${contenido.tituloPagina}</title>
     </head>
+    
     <body>	
     
         <br>   
-            <div class="container bg-container">
-                <div>
-                    <img src="imagenes/cintillo.png"  /> 
+		
+		<div class="container bg-container">
+			<div>
+				<img src="imagenes/cintillo.png" />
+			</div>
+		</div>
 
-                </div>
-            </div>
-              
-                <div class="container bg-container">        
-                    <div class="alert-info">
+		<div class="container bg-container">
+			<div class="alert-info">
 
-                        <table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<table width="100%" border="0" cellspacing="2" cellpadding="0">
 
-                            <tr>
-                                <td width="10%" class="sombra1">
-                                    <div align="right"><strong>Ambiente:</strong></div>
-                                </td>
+					<tr>
+						<td width="10%" class="sombra1">
+							<div align="right">
+								<strong>Ambiente:</strong>
+							</div>
+						</td>
 
-                                <td width="62%" class="sombra2">
-                                    <div align="left">&nbsp;[<c:out value="${contenido.ambiente}"/> ]:
+						<td width="62%" class="sombra2">
+							<div align="left">
+								&nbsp;[
+								<c:out value="${contenido.ambiente}" />
+								]:
 
-                                    </div>                                    
-                                </td>        
+							</div>
+						</td>
 
-                                <td width="28%" class="sombra2" align="right">                                    
-                                    <script>document.write(getFecha('<c:out value="${contenido.fechaHora}"/>'));</script>
-                                </td>              
-                            </tr>
-                        </table>
-                    </div>
+						<td width="28%" class="sombra2" align="right"><script>document.write(getFecha('<c:out value="${contenido.fechaHora}"/>'));</script>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			

@@ -1,12 +1,25 @@
 package com.mf.controlacceso.facade.sistema;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/*import sigefirrhh.login.LoginSession;
+import sigefirrhh.persistencia.dao.OpcionDAO;
+import sigefirrhh.persistencia.dao.imple.OpcionDAOImple;
+import sigefirrhh.persistencia.modelo.CriterioBusqueda;
+import sigefirrhh.persistencia.modelo.Opcion;
+import sigefirrhh.sistema.UsuarioRol;
+*/
 
 import com.mf.controlacceso.dao.UsuarioDAO;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
-import com.mf.controlacceso.modelo.Usuario;
+import com.mf.controlacceso.modelo.sistema.Usuario;
 
 /**
  * 
@@ -62,12 +75,14 @@ public class SistemaFacade implements Serializable {
 			List<Object> ListaUsuario = userDAO.listar(usuario);
 			Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
 			
-			 Usuario user = new Usuario();
-	    		
-	    		
+			/* Usuario user = new Usuario();
 	    		UsuarioDAO usuarioDAO = new UsuarioDAOImple();	    		
 				List<Usuario> listadoUsuario= (List) usuarioDAO.listar(user);				
-				System.out.println(listadoUsuario.size());
+				System.out.println(listadoUsuario.size());*/
+			 
+			System.out.println("Nombre: " + usuarioTemp.getNombre());
+			System.out.println("Size: " + usuarioTemp.getPerfilUsuario().size());
+			
 			
 			
 			
@@ -94,7 +109,93 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 	
+	public String generarMenu(Usuario usuario) {
+			
+			String menu = null;
+			return menu;
+			
+			/*OpcionDAO OpcionDAO = new OpcionDAOImple();
+			List<Opcion> listadoOpcion = null;
+			
+			try {
+				
+				if (usuario.getAdministrador()) {
+				
+					Collection colUsuarioRol = new ArrayList();
+					colUsuarioRol = (ArrayList)loginSession.getColUsuarioRol();	
+					
+					criterio = new CriterioBusqueda();
+					Iterator iterator = colUsuarioRol.iterator();
+					
+					while (iterator.hasNext()){
+						
+						UsuarioRol usuarioRol = (UsuarioRol)iterator.next();
+						criterio.addIdRol(usuarioRol.getRol().getIdRol());						
+					}
+					listadoOpcion = (List<Opcion>) OpcionDAO.buscar(criterio, "OpcionxRol");	
+				}else{
+					listadoOpcion = (List<Opcion>) OpcionDAO.buscar(null, "Opcion");
+				}			
+				
+				String vtOpciones[][] = new String[listadoOpcion.size()][3]; 
+				for (int i=0; i < listadoOpcion.size();i++){
+					vtOpciones[i][0] = listadoOpcion.get(i).getJerarquia().toString();
+					vtOpciones[i][1] = listadoOpcion.get(i).getDescripcion().toString();
+					vtOpciones[i][2] = listadoOpcion.get(i).getRuta();
+				}
+				
+				
+				//System.out.println(vtOpciones[1][0] + " " + vtOpciones[1][1]);
+				
+				//Ponerle el bloque que esta en la oficina 
+				
+				
+				menu = "<ul id=\"xx\" class=\"xx\">";
+				
+				for (int i=0; i<vtOpciones.length; i++) {
+					if (tieneHijos(i, vtOpciones)) {				
+						menu += "<li>" + vtOpciones[i][1] +  "<ul>";
+					} else {
+						
+						String rutaTemp = null;
+						rutaTemp = "/" + request.getRequestURI().split("/")[1] ;
+						
+						if (vtOpciones[i][2].indexOf(".do") != -1){
+							menu += "<li> <a href=\"" + rutaTemp+ "/" + vtOpciones[i][2] + "?accion=nuevo\" class=\"level-1\">";	
+						}else{
+							if (!vtOpciones[i][2].equals("")){
+								menu += "<li> <a href=\"" + rutaTemp+ "/" + vtOpciones[i][2] + ".jsf\" class=\"level-1\">";	
+							}else{
+								menu += "<li> <a href=\"" + rutaTemp+ "/" + "home.jsf\" class=\"level-1\">";
+							}
+						}					
+						menu += vtOpciones[i][1] + "</a></li>";
 
+					}
+					
+					if (i+1 < vtOpciones.length){
+				    	 if (vtOpciones[i+1][0].length() < vtOpciones[i][0].length()){ 
+				    		 
+				    		 int cont = vtOpciones[i][0].split("\\.").length - vtOpciones[i+1][0].split("\\.").length ;
+				    		 for (int y=0; y<cont; y++) {
+				    			 menu +="</ul></li>";	 
+				    		 }
+				    	 }
+					}else if (i+1 == vtOpciones.length){
+				    	 if (vtOpciones[i][0].split("\\.").length > 1){
+		 		    		 
+				    		 int cont = vtOpciones[i][0].split("\\.").length-1 ;
+				    		 for (int y=0; y<cont; y++) {
+				    			 menu +="</ul></li>";	 
+				    		 }
+				    	 }
+				    	
+				    	 
+				    	 
+				     }
+			    	// System.out.println(m.toString()+ " " + resp);			
+					*/
+		        }
 		/*public Collection listarUsuario()
 			throws Exception {
 			try {

@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mf.controlacceso.dao.UsuarioDAO;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
-import com.mf.controlacceso.modelo.Usuario;
+import com.mf.controlacceso.modelo.sistema.Usuario;
 import com.mf.controlacceso.servicio.Configuracion;
 import com.mf.controlacceso.servicio.PingService;
 

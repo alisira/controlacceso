@@ -1,15 +1,3 @@
-<%@ page import="sigefirrhh.login.LoginSession " %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="sigefirrhh.sistema.ValidadorSesion" %>
-<%@ page import="javax.servlet.http.HttpServletRequest" %>
-<%@ page import="javax.servlet.jsp.tagext.TagSupport" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.util.TimeZone" %>	
-
-
 
 <% 
 

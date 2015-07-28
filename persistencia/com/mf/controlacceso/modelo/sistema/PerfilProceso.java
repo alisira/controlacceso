@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo;
+package com.mf.controlacceso.modelo.sistema;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="usuario")
-public class Usuario implements Serializable  {
+public class PerfilProceso implements Serializable  {
     
 	private static final long serialVersionUID = 5837444858026193720L;
 
@@ -183,7 +183,7 @@ public class Usuario implements Serializable  {
 		this.cambio_password = cambio_password;
 	}
 
-	public boolean isAdministrador() {
+	public boolean getAdministrador() {
 		return administrador;
 	}
 

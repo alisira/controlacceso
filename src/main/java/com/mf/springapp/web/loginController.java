@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mf.controlacceso.dao.UsuarioDAO;
 import com.mf.controlacceso.facade.sistema.SistemaFacade;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
-import com.mf.controlacceso.modelo.Usuario;
+import com.mf.controlacceso.modelo.sistema.Usuario;
 
 
 @Controller
@@ -39,7 +39,6 @@ public class loginController {
     	String vista = null;    	
     	
     	try{
-	    	
 	    	    	
 	    	String mensaje = null;
 
@@ -126,8 +125,8 @@ public class loginController {
 	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
 	    	
-	    	String js[] = {"jquery-2.1.4.min","entradaSalida"};        
-	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso"};
+	    	String js[] = {"jquery-2.1.4.min","jquery_menu", "menu_view", "comun"};        
+	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso", "theme"};
 	        
 	        contenido.put("tituloPagina", "Control de Entrada y Salida del Personal");
 	        contenido.put("js", js);

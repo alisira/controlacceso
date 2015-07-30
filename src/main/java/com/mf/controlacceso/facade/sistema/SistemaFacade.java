@@ -99,6 +99,14 @@ public class SistemaFacade implements Serializable {
 
 			List<Object> ListaUsuario = userDAO.listar(usuario);
 			if (ListaUsuario.size() > 0){
+				
+				Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
+				
+				System.out.println("Nombre: " + usuarioTemp.getNombre());
+				System.out.println("Size: " + usuarioTemp.getPerfilUsuario().size());
+				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getUsuario().getIdUsuario());
+				
+				
 				return (Usuario) ListaUsuario.get(0) ;
 			}else{
 				return null;

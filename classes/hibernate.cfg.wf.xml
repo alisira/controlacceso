@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="connection.datasource">java:/comp/env/jdbc/DBPoolWF</property> 
-    <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <property name="hibernate.show_sql">true</property>   
-    <mapping class="com.mf.controlacceso.modelo.sistema.Usuario"/>
-    <mapping class="com.mf.controlacceso.modelo.sistema.PerfilUsuario"/>        
-  </session-factory>
+	
+  	<session-factory>
+  		
+    	<property name="connection.datasource">java:/comp/env/jdbc/DBPoolWF</property> 
+    	<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    	<property name="hibernate.show_sql">true</property>   
+    	<mapping class="com.mf.controlacceso.modelo.sistema.Usuario"/>
+    	<mapping class="com.mf.controlacceso.modelo.sistema.PerfilUsuario"/>        
+  	</session-factory>
 </hibernate-configuration>

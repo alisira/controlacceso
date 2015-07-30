@@ -1,12 +1,15 @@
 package com.mf.controlacceso.modelo.sistema;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -66,15 +69,51 @@ public class Usuario implements Serializable  {
     @Column(name="administrador")
     private boolean administrador;
     
-    @OneToMany(mappedBy="usuario",cascade= CascadeType.ALL)    
-    private Set<PerfilUsuario> perfilUsuario;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="usuario",cascade= CascadeType.ALL)
+    private List<PerfilUsuario> perfilUsuario = new ArrayList<PerfilUsuario>();
     
 
-	public Set<PerfilUsuario> getPerfilUsuario() {
-		return perfilUsuario;
+    public Usuario(){
+		
+	}
+    
+public Usuario(Integer idUsuario, String login,Integer cedula, String nombre,String apellido
+
+,String password
+,String unidad_funcional
+,String unidad_fisica
+,String telefono1
+,String telefono2
+,String email
+,Date fecha_inact
+,String estatus
+,Integer intentos
+,Date cambio_password,boolean administrador){
+		this.idUsuario =idUsuario;
+	    this.login =login;
+		this.cedula =cedula ;
+	    this.nombre =nombre;
+	    this.apellido =apellido;
+	    this.password =password;
+	    this.unidad_funcional =unidad_funcional;
+	    this.unidad_fisica =unidad_fisica;
+	    this.telefono1 =telefono1;
+	    this.telefono2 =telefono2;
+	    this.email= email;
+	    this.fecha_inact=fecha_inact;
+	    this.estatus=estatus;
+	    this.intentos=	intentos;        
+	    this.cambio_password=cambio_password;
+	    this.administrador=administrador;
+		
 	}
 
-	public void setPerfilUsuario(Set<PerfilUsuario> perfilUsuario) {
+	
+	public List<PerfilUsuario> getPerfilUsuario() {
+		return perfilUsuario;
+	}
+	
+	public void setPerfilUsuario(List<PerfilUsuario> perfilUsuario) {
 		this.perfilUsuario = perfilUsuario;
 	}
 

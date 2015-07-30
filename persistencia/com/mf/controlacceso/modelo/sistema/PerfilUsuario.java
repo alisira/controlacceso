@@ -32,6 +32,18 @@ public class PerfilUsuario implements Serializable  {
     @ManyToOne
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
+    
+	public PerfilUsuario(){
+		
+	}
+    
+	public PerfilUsuario(Usuario usuario, Integer idPerfilUsuario, Integer idPerfil){
+		
+		this.usuario = usuario;
+		this.idPerfilUsuario =idPerfilUsuario; 
+		this.idPerfil =  idPerfil;
+	}
+    
 
 	public Usuario getUsuario() {
 		return usuario;

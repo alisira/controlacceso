@@ -36,4 +36,6 @@ alter table proceso rename column ruta to ruta_menu;
 ALTER TABLE proceso  ALTER COLUMN url TYPE character varying(120);
 ALTER TABLE proceso DROP CONSTRAINT proceso_denominacion_key;
 ALTER TABLE proceso ALTER COLUMN denominacion TYPE character varying(90);
+ALTER TABLE perfil_proceso
+ALTER COLUMN priuse DROP NOT NULL;
 

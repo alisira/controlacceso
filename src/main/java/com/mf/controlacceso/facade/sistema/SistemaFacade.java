@@ -105,6 +105,7 @@ public class SistemaFacade implements Serializable {
 				System.out.println("Nombre: " + usuarioTemp.getNombre());
 				System.out.println("Size: " + usuarioTemp.getPerfilUsuario().size());
 				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getUsuario().getIdUsuario());
+				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getPerfil().getDenominacion());
 				
 				
 				return (Usuario) ListaUsuario.get(0) ;

@@ -8,6 +8,10 @@
     	<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     	<property name="hibernate.show_sql">true</property>   
     	<mapping class="com.mf.controlacceso.modelo.sistema.Usuario"/>
-    	<mapping class="com.mf.controlacceso.modelo.sistema.PerfilUsuario"/>        
+    	<mapping class="com.mf.controlacceso.modelo.sistema.PerfilUsuario"/> 
+    	<mapping class="com.mf.controlacceso.modelo.sistema.Perfil"/>
+    	<mapping class="com.mf.controlacceso.modelo.sistema.Proceso"/>
+    	<mapping class="com.mf.controlacceso.modelo.sistema.PerfilProceso"/>
+    	<mapping class="com.mf.controlacceso.modelo.sistema.Aplicacion"/>         
   	</session-factory>
 </hibernate-configuration>

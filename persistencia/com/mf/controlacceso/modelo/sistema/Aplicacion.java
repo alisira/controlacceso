@@ -1,90 +1,66 @@
 package com.mf.controlacceso.modelo.sistema;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usuario")
+@Table(name="aplicacion")
 public class Aplicacion implements Serializable  {
-    
-	private static final long serialVersionUID = 5837444858026193720L;
+
+	private static final long serialVersionUID = -4682833874808260783L;
 
 	@Id
-    @Column(name="id_usuario")
-	private Integer idUsuario;
-    
-    @Column(name="login")
-    private String login;
-    
-    @Column(name="cedula")
-	private Integer cedula;
+    @Column(name="id_aplicacion")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer idAplicacion;
     
     @Column(name="nombre")
     private String nombre;
     
-    @Column(name="apellido")
-    private String apellido;
-    
-    @Column(name="password")
-    private String password;
- 
-    @Column(name="unidad_funcional")
-    private String unidad_funcional;
-    
-    @Column(name="unidad_fisica")
-    private String unidad_fisica;
-    
-    @Column(name="telefono1")
-    private String telefono1;
-
-    @Column(name="telefono2")
-    private String telefono2;
-    
-    @Column(name="email")
-    private String email;
-    
-    @Column(name="fecha_inact")
-    private Date fecha_inact;    
-
     @Column(name="estatus")
-    private String estatus;   
-        
-    @Column(name="intentos")
-    private Integer intentos;   
-        
-    @Column(name="cambio_password")
-	private Date cambio_password;
+    private String estatus; 
     
-    @Column(name="administrador")
-    private boolean administrador;
+    @Column(name="descripcion")
+    private String descripcion;
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="aplicacion",cascade= CascadeType.ALL)
+    private List<Proceso> proceso = new ArrayList<Proceso>();
+    
+    public Aplicacion(Integer idAplicacion, String nombre, String estatus, String descripcion){
+    	this.idAplicacion =idAplicacion ;
+    	this.nombre= nombre;
+    	this.estatus = estatus;
+    	this.descripcion =descripcion;
+    }
+    
+    public Aplicacion(){    	
+    }
 
-	public Integer getIdUsuario() {
-		return idUsuario;
+	public List<Proceso> getProceso() {
+		return proceso;
 	}
 
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setProceso(List<Proceso> proceso) {
+		this.proceso = proceso;
 	}
 
-	public String getLogin() {
-		return login;
+	public Integer getIdAplicacion() {
+		return idAplicacion;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public Integer getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(Integer cedula) {
-		this.cedula = cedula;
+	public void setIdAplicacion(Integer idAplicacion) {
+		this.idAplicacion = idAplicacion;
 	}
 
 	public String getNombre() {
@@ -95,70 +71,6 @@ public class Aplicacion implements Serializable  {
 		this.nombre = nombre;
 	}
 
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getUnidad_funcional() {
-		return unidad_funcional;
-	}
-
-	public void setUnidad_funcional(String unidad_funcional) {
-		this.unidad_funcional = unidad_funcional;
-	}
-
-	public String getUnidad_fisica() {
-		return unidad_fisica;
-	}
-
-	public void setUnidad_fisica(String unidad_fisica) {
-		this.unidad_fisica = unidad_fisica;
-	}
-
-	public String getTelefono1() {
-		return telefono1;
-	}
-
-	public void setTelefono1(String telefono1) {
-		this.telefono1 = telefono1;
-	}
-
-	public String getTelefono2() {
-		return telefono2;
-	}
-
-	public void setTelefono2(String telefono2) {
-		this.telefono2 = telefono2;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getFecha_inact() {
-		return fecha_inact;
-	}
-
-	public void setFecha_inact(Date fecha_inact) {
-		this.fecha_inact = fecha_inact;
-	}
-
 	public String getEstatus() {
 		return estatus;
 	}
@@ -167,28 +79,12 @@ public class Aplicacion implements Serializable  {
 		this.estatus = estatus;
 	}
 
-	public Integer getIntentos() {
-		return intentos;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setIntentos(Integer intentos) {
-		this.intentos = intentos;
-	}
-
-	public Date getCambio_password() {
-		return cambio_password;
-	}
-
-	public void setCambio_password(Date cambio_password) {
-		this.cambio_password = cambio_password;
-	}
-
-	public boolean getAdministrador() {
-		return administrador;
-	}
-
-	public void setAdministrador(boolean administrador) {
-		this.administrador = administrador;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

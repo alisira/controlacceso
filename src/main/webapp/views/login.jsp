@@ -21,10 +21,11 @@
 	
 	        <tr class="error">
 	            <td height="20" colspan="2">
-	                <div align="center">
-	                    <strong><?php if(isset($mensaje))echo $mensaje;   ?></strong>
-	                </div>
-	                <div align="center"></div>
+	                <div align="center">	                
+		                <c:if test="${contenido.mensaje != ''}">
+		                	<c:out value="${contenido.mensaje}" />
+		                </c:if>	                    
+	                </div>	                
 	            </td>
 	        </tr>
 	

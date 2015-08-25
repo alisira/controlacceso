@@ -56,6 +56,7 @@ public class HibernateUtil {
     }
     
     public static Map<String, SessionFactory> getSessionFactory() {
+    	//Evalua si el sessionfactory no ha sido creado
     	if (sessionFactory.size() < 1 ) {
         	
         	Map<String, String> mapaXml = new HashMap<String, String>();

@@ -45,11 +45,11 @@ public class Proceso implements Serializable  {
     @Column(name="ruta_menu")
     private String ruta_menu;
     
-	@ManyToOne
+	@ManyToOne( cascade= CascadeType.ALL)
 	@JoinColumn(name="id_aplicacion")
 	private Aplicacion aplicacion;
 	
-    @OneToMany( mappedBy="proceso", cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="proceso", cascade= CascadeType.ALL)
     private List<PerfilProceso> perfilProceso = new ArrayList<PerfilProceso>();
 	
 	public Proceso(Integer idProceso, String denominacion , String estatus, String descripcion, String url, String jerarquia_menu, String ruta_menu, Aplicacion aplicacion){
@@ -65,6 +65,14 @@ public class Proceso implements Serializable  {
 
 	public Proceso(){
 		
+	}
+
+	public List<PerfilProceso> getPerfilProceso() {
+		return perfilProceso;
+	}
+
+	public void setPerfilProceso(List<PerfilProceso> perfilProceso) {
+		this.perfilProceso = perfilProceso;
 	}
 
 	public Integer getIdProceso() {

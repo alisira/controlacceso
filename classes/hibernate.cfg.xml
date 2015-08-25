@@ -4,7 +4,8 @@
   <session-factory>
     <property name="connection.datasource">java:/comp/env/jdbc/DBPoolSigefirrhh</property> 
     <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <property name="hibernate.show_sql">true</property>   
-    <mapping class="com.mf.controlacceso.modelo.Usuario2"/>
+    <property name="hibernate.show_sql">true</property>    
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>      
+    <mapping class="com.mf.controlacceso.modelo.Usuario2"/>    
   </session-factory>
 </hibernate-configuration>

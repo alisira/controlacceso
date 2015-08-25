@@ -39,23 +39,22 @@ public class InicioController {
     	Map<String, Object> contenido = new HashMap<String, Object>();
     	String vista = null;
     	String ambiente = null;
+    	String mensaje = "";
     	
     	try{
     		ambiente  =  Configuracion.getAmbiente();  
     		reglaValidacion(null);
     		vista = "login.jsp";
     		
-    		
-    		
 	        
     	}catch (SQLException e){
     		logger.error("SQLException: ", e);
-    		String mensaje = "Problema de Conexion con la Base de Datos favor notificar al administrador, gracias";
+    		mensaje = "Problema de Conexion con la Base de Datos favor notificar al administrador, gracias";
         	contenido.put("mensaje", mensaje);
         	vista = "resultado.jsp";
     	}catch (Exception e){
     		logger.error("Exception: ", e);
-    		String mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
+    		mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
         	contenido.put("mensaje", mensaje);
         	vista = "resultado.jsp";
     	}finally{
@@ -72,7 +71,8 @@ public class InicioController {
 	        contenido.put("css", css);
 	        contenido.put("ambiente", ambiente);
 	        contenido.put("vista", vista);
-	        contenido.put("fechaHora", fechaHora);	        
+	        contenido.put("fechaHora", fechaHora);
+	        contenido.put("mensaje", mensaje);
     	}
     	
         return new ModelAndView("plantilla", "contenido", contenido);

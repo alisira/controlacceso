@@ -17,8 +17,20 @@ import sigefirrhh.persistencia.modelo.Opcion;
 import sigefirrhh.sistema.UsuarioRol;
 */
 
+
+
+
+
+
+
+import com.mf.controlacceso.dao.PerfilDAO;
+import com.mf.controlacceso.dao.ProcesoDAO;
 import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.imple.PerfilDAOImple;
+import com.mf.controlacceso.imple.ProcesoDAOImple;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
+import com.mf.controlacceso.modelo.sistema.Perfil;
+import com.mf.controlacceso.modelo.sistema.Proceso;
 import com.mf.controlacceso.modelo.sistema.Usuario;
 
 /**
@@ -93,19 +105,39 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 	
-	public Usuario validarUsuario(Usuario usuario)
-			throws Exception {
-		try {
+	public Usuario validarUsuario(Usuario usuario){
+	//	try {
 
 			List<Object> ListaUsuario = userDAO.listar(usuario);
 			if (ListaUsuario.size() > 0){
 				
 				Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
 				
-				System.out.println("Nombre: " + usuarioTemp.getNombre());
+				/*System.out.println("Nombre: " + usuarioTemp.getNombre());
 				System.out.println("Size: " + usuarioTemp.getPerfilUsuario().size());
 				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getUsuario().getIdUsuario());
 				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getPerfil().getDenominacion());
+				*/
+				
+				/*PerfilDAO perfilDAO = new PerfilDAOImple();
+				Perfil perfil = new Perfil();
+				perfil.setIdAplicacion(1);
+				List<Object> ListaPerfil = perfilDAO.listar(perfil);
+				Perfil perfilTemp = (Perfil) ListaPerfil.get(0);
+				System.out.println(perfilTemp.getDenominacion());
+				*/
+				
+				
+				ProcesoDAO procesoDAO = new ProcesoDAOImple();
+				Proceso proceso = new Proceso();
+				proceso.setIdProceso(1);
+				List<Object> ListaProceso = procesoDAO.listar(proceso);
+				Proceso procesoTemp = (Proceso) ListaProceso.get(0);
+				System.out.println(procesoTemp.getAplicacion().getDescripcion());
+				System.out.println(procesoTemp.getPerfilProceso().get(0).getIdPerfil());
+				
+				
+				
 				
 				
 				return (Usuario) ListaUsuario.get(0) ;
@@ -113,9 +145,9 @@ public class SistemaFacade implements Serializable {
 				return null;
 			}
 
-		} finally {
+		//} finally {
 			//if (txn!=null) txn.close();
-		}
+		//}
 	}
 	
 	public String generarMenu(Usuario usuario) {

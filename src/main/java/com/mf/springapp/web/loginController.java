@@ -56,9 +56,15 @@ public class loginController {
 	            Usuario usuario = sistemaFacade.validarUsuario(usuarioTemp);
 	        	if (usuario !=null){
 	        		if (usuario.getEstatus().equals("A")){
-	        			vista = "principal.jsp";
+	        			if (usuario.getPerfilUsuario().size() > 0){
+	        				vista = "principal.jsp";
+	        			}else{
+	        				mensaje = "Usuario No Tiene un Rol Asociado, Comuníquese con el administrador";
+			            	contenido.put("mensaje", mensaje);
+			            	vista = "login.jsp";
+	        			}	        			
 	        		}else{
-	        			mensaje = "Usuario Inactivo, Comuniquese con el administrador";
+	        			mensaje = "Usuario Inactivo, Comuníquese con el administrador";
 		            	contenido.put("mensaje", mensaje);
 		            	vista = "login.jsp";
 	        		}
@@ -107,10 +113,8 @@ public class loginController {
 	            	mensaje = "Usuario o contraseña invalida, Favor Revisar";
 	            	contenido.put("mensaje", mensaje);
 	            	vista = "login.jsp";
-	            }
-		    	
-		    	
-	        
+	            	System.out.println("3994");
+	            }	        
 	        }
         
     	}catch (Exception e){

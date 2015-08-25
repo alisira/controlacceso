@@ -2,11 +2,11 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	
-  	<session-factory>
-  		
+  	<session-factory>  		
     	<property name="connection.datasource">java:/comp/env/jdbc/DBPoolWF</property> 
     	<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    	<property name="hibernate.show_sql">true</property>   
+    	<property name="hibernate.show_sql">true</property>
+    	<property name="hibernate.enable_lazy_load_no_trans">true</property>    
     	<mapping class="com.mf.controlacceso.modelo.sistema.Usuario"/>
     	<mapping class="com.mf.controlacceso.modelo.sistema.PerfilUsuario"/> 
     	<mapping class="com.mf.controlacceso.modelo.sistema.Perfil"/>
@@ -14,4 +14,5 @@
     	<mapping class="com.mf.controlacceso.modelo.sistema.PerfilProceso"/>
     	<mapping class="com.mf.controlacceso.modelo.sistema.Aplicacion"/>         
   	</session-factory>
+  	
 </hibernate-configuration>

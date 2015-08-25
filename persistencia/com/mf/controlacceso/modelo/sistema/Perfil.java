@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
+
 @Entity
 @Table(name="perfil")
 public class Perfil implements Serializable  {
@@ -35,7 +37,7 @@ public class Perfil implements Serializable  {
     @Column(name="estatus")
     private String estatus;    
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="perfil", cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="perfil", cascade= CascadeType.ALL)
     private List<PerfilUsuario> perfilUsuario = new ArrayList<PerfilUsuario>();
     
     Perfil(Integer idPerfil, String denominacion, Integer idAplicacion, String estatus){
@@ -45,7 +47,7 @@ public class Perfil implements Serializable  {
     	this.estatus=estatus;
     }
     
-    Perfil(){
+    public Perfil(){
     	super();
     }
 

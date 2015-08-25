@@ -34,7 +34,7 @@ public class Aplicacion implements Serializable  {
     @Column(name="descripcion")
     private String descripcion;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="aplicacion",cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="aplicacion",cascade= CascadeType.ALL)
     private List<Proceso> proceso = new ArrayList<Proceso>();
     
     public Aplicacion(Integer idAplicacion, String nombre, String estatus, String descripcion){

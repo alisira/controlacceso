@@ -71,7 +71,7 @@ public class Usuario implements Serializable  {
     @Column(name="administrador")
     private boolean administrador;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="usuario",cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="usuario",cascade= CascadeType.ALL)
     private List<PerfilUsuario> perfilUsuario = new ArrayList<PerfilUsuario>();
 
     public Usuario(){

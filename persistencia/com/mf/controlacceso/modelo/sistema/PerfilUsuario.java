@@ -39,8 +39,7 @@ public class PerfilUsuario implements Serializable{
 		super();
 	}
     
-	public PerfilUsuario(Usuario usuario, Integer idPerfilUsuario, Perfil perfil){
-		
+	public PerfilUsuario(Usuario usuario, Integer idPerfilUsuario, Perfil perfil){		
 		this.usuario = usuario;
 		this.idPerfilUsuario =idPerfilUsuario; 
 		this.perfil =  perfil;

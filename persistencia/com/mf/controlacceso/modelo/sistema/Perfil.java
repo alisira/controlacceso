@@ -40,6 +40,9 @@ public class Perfil implements Serializable  {
     @OneToMany(fetch = FetchType.LAZY, mappedBy="perfil", cascade= CascadeType.ALL)
     private List<PerfilUsuario> perfilUsuario = new ArrayList<PerfilUsuario>();
     
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="perfil", cascade= CascadeType.ALL)
+    private List<PerfilProceso> perfilProceso = new ArrayList<PerfilProceso>();
+    
     Perfil(Integer idPerfil, String denominacion, Integer idAplicacion, String estatus){
     	this.idPerfil = idPerfil;
     	this.denominacion=denominacion;
@@ -50,6 +53,14 @@ public class Perfil implements Serializable  {
     public Perfil(){
     	super();
     }
+
+	public Integer getIdPerfil() {
+		return idPerfil;
+	}
+
+	public void setIdPerfil(Integer idPerfil) {
+		this.idPerfil = idPerfil;
+	}
 
 	public String getDenominacion() {
 		return denominacion;
@@ -73,6 +84,24 @@ public class Perfil implements Serializable  {
 
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
-	}	
+	}
+
+	public List<PerfilUsuario> getPerfilUsuario() {
+		return perfilUsuario;
+	}
+
+	public void setPerfilUsuario(List<PerfilUsuario> perfilUsuario) {
+		this.perfilUsuario = perfilUsuario;
+	}
+
+	public List<PerfilProceso> getPerfilProceso() {
+		return perfilProceso;
+	}
+
+	public void setPerfilProceso(List<PerfilProceso> perfilProceso) {
+		this.perfilProceso = perfilProceso;
+	}
+
+	
 
 }

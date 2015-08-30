@@ -1,10 +1,13 @@
 package com.mf.controlacceso.facade.sistema;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,9 +23,7 @@ import sigefirrhh.sistema.UsuarioRol;
 
 
 
-
-
-
+import com.mf.controlacceso.dao.GenericDAO;
 import com.mf.controlacceso.dao.PerfilDAO;
 import com.mf.controlacceso.dao.ProcesoDAO;
 import com.mf.controlacceso.dao.UsuarioDAO;
@@ -30,6 +31,7 @@ import com.mf.controlacceso.imple.PerfilDAOImple;
 import com.mf.controlacceso.imple.ProcesoDAOImple;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
 import com.mf.controlacceso.modelo.sistema.Perfil;
+import com.mf.controlacceso.modelo.sistema.PerfilProceso;
 import com.mf.controlacceso.modelo.sistema.Proceso;
 import com.mf.controlacceso.modelo.sistema.Usuario;
 
@@ -133,8 +135,8 @@ public class SistemaFacade implements Serializable {
 				proceso.setIdProceso(1);
 				List<Object> ListaProceso = procesoDAO.listar(proceso);
 				Proceso procesoTemp = (Proceso) ListaProceso.get(0);
-				System.out.println(procesoTemp.getAplicacion().getDescripcion());
-				System.out.println(procesoTemp.getPerfilProceso().get(0).getIdPerfil());
+				//System.out.println(procesoTemp.getAplicacion().getDescripcion());
+				//System.out.println(procesoTemp.getPerfilProceso().get(0).getPerfil().getDenominacion());
 				
 				
 				
@@ -150,11 +152,67 @@ public class SistemaFacade implements Serializable {
 		//}
 	}
 	
-	public String generarMenu(Usuario usuario) {
+	public String[][] generarMenu(Usuario usuario) {
+
+		String vtOpciones[][] = null;
+
+		//System.out.println("Entro en generarMenu");			
+
+		for (int i=0;i< usuario.getPerfilUsuario().size();i++){
+
+			//System.out.println("cantidad de perfilusuario = " + usuario.getPerfilUsuario().size());
+
+			vtOpciones = new String[usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()][3]; 
+
+			for (int y=0;y< usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size();y++){					
+
+				//System.out.println("cantidad de perfilproceso = " + usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size());					
+
+				List<PerfilProceso> listaProceso = usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso();
+
+				vtOpciones[y][0] = listaProceso.get(y).getProceso().getJerarquia_menu().toString();
+				vtOpciones[y][1] = listaProceso.get(y).getProceso().getDenominacion().toString();
+				vtOpciones[y][2] = listaProceso.get(y).getProceso().getUrl().toString();
+
+				//System.out.println("este si: " + vtOpciones[y][1]);
+
+			}
+		}
 			
-			String menu = null;
-			return menu;
 			
+		/*for (int z=0;z< usuario.getPerfilUsuario().get(0).getPerfil().getPerfilProceso().size();z++){
+			
+			System.out.println(vtOpciones[z][0] + "-" + vtOpciones[z][1] + "-" + vtOpciones[z][2]);
+
+			//System.out.println("este si: " + vtOpciones[y][1]);
+
+		}*/
+		
+		
+			//PerfilProceso perfilTO = new PerfilProceso();
+			//perfilTO.set
+			Proceso proTO = new Proceso();
+			proTO.setPerfilProceso(usuario.getPerfilUsuario().get(0).getPerfil().getPerfilProceso());
+			ProcesoDAOImple procesoDAO = new ProcesoDAOImple();
+			List<Proceso> ListaProceso1 = procesoDAO.procesoPerfil(proTO);
+			
+			
+			
+			//imprimir contenido of the array
+			
+			
+			
+			
+			
+			
+			//System.out.println("total Proceso1=" + ListaProceso1.size());
+			
+			
+			//Proceso proTo2 =  (Proceso) ListaProceso2.get(0);
+			
+			//System.out.println("total perfilProceso=" + ListaProceso2.get(0).getPerfilProceso().size());
+			
+			return vtOpciones;
 			/*OpcionDAO OpcionDAO = new OpcionDAOImple();
 			List<Opcion> listadoOpcion = null;
 			
@@ -237,6 +295,145 @@ public class SistemaFacade implements Serializable {
 			    	// System.out.println(m.toString()+ " " + resp);			
 					*/
 		        }
+	
+	
+	public String generarMenu2(Usuario usuario) {
+
+		String vtOpciones[][] = null;
+
+		//System.out.println("Entro en generarMenu");			
+
+		for (int i=0;i< usuario.getPerfilUsuario().size();i++){
+
+			//System.out.println("cantidad de perfilusuario = " + usuario.getPerfilUsuario().size());
+
+			vtOpciones = new String[usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()][3]; 
+
+			for (int y=0;y< usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size();y++){					
+
+				//System.out.println("cantidad de perfilproceso = " + usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size());					
+
+				List<PerfilProceso> listaProceso = usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso();
+
+				vtOpciones[y][0] = listaProceso.get(y).getProceso().getJerarquia_menu().toString();
+				vtOpciones[y][1] = listaProceso.get(y).getProceso().getDenominacion().toString();
+				vtOpciones[y][2] = listaProceso.get(y).getProceso().getUrl().toString();
+
+				//System.out.println("este si: " + vtOpciones[y][1]);
+
+			}
+		}			
+			
+
+		
+		/*for (int z=0;z< usuario.getPerfilUsuario().get(0).getPerfil().getPerfilProceso().size();z++){
+			
+			System.out.println(vtOpciones[z][0] + "-" + vtOpciones[z][1] + "-" + vtOpciones[z][2]);
+
+			//System.out.println("este si: " + vtOpciones[y][1]);
+
+		}*/
+		
+			
+			
+			//System.out.println(vtOpciones[1][0] + " " + vtOpciones[1][1]);
+			
+			//Ponerle el bloque que esta en la oficina 
+			
+			
+			String menu = "<ul id=\"xx\" class=\"xx\">";
+			
+			for (int i=0; i<vtOpciones.length; i++) {
+				if (tieneHijos(i, vtOpciones)) {				
+					menu += "<li>" + vtOpciones[i][1] +  "<ul>";
+					
+					
+					//System.out.println("nunca paso por aqui");
+					
+				} else {
+					
+					String rutaTemp = null;
+					//rutaTemp = "/" + request.getRequestURI().split("/")[1] ;
+					rutaTemp = "/controlacceso" ;
+					
+					if (vtOpciones[i][2].indexOf(".do") != -1){
+						menu += "<li> <a href=\"" + rutaTemp+ "/" + vtOpciones[i][2] + "?accion=nuevo\" class=\"level-1\">";	
+					}else{
+						if (!vtOpciones[i][2].equals("")){
+							menu += "<li> <a href=\"" + rutaTemp+ "/" + vtOpciones[i][2] + ".jsf\" class=\"level-1\">";	
+						}else{
+							menu += "<li> <a href=\"" + rutaTemp+ "/" + "home.jsf\" class=\"level-1\">";
+						}
+					}					
+					menu += vtOpciones[i][1] + "</a></li>";
+
+				}
+				
+				if (i+1 < vtOpciones.length){
+			    	 if (vtOpciones[i+1][0].length() < vtOpciones[i][0].length()){ 
+			    		 
+			    		 int cont = vtOpciones[i][0].split("\\.").length - vtOpciones[i+1][0].split("\\.").length ;
+			    		 for (int y=0; y<cont; y++) {
+			    			 menu +="</ul></li>";	 
+			    		 }
+			    	 }
+				}else if (i+1 == vtOpciones.length){
+			    	 if (vtOpciones[i][0].split("\\.").length > 1){
+	 		    		 
+			    		 int cont = vtOpciones[i][0].split("\\.").length-1 ;
+			    		 for (int y=0; y<cont; y++) {
+			    			 menu +="</ul></li>";	 
+			    		 }
+			    	 } 
+			    	 
+			     }
+		    	// System.out.println(m.toString()+ " " + resp);			
+				
+	        }
+			
+			//sirve para incluir el cambio de contrasena por defecto sin embargo ya este esta incluida como una opcion a ser asociado a los roles 
+			/*menu += "<li>"; 
+	    	menu += "Personal";
+	    	menu += "<ul>";
+	    	menu += "<li>"; 
+	    	menu += "<a class=\"level-1 level-3\" href=\"/sigefirrhh/login/ChangePassword.jsf\">&nbsp;&nbsp;Cambio Contrasena</a>";
+	    	menu += "</li>";
+	    	menu += "</ul>";	    	
+			menu += "</li>";
+			*/
+			
+			menu += "<li>"; 
+	    	menu += "<a class=\"level-1 level-3\" href=\"/sigefirrhh/logout.jsf\">&nbsp;&nbsp;Salir</a>";
+			menu += "</li>";
+			menu += "</ul>";
+			
+			//System.out.println(menu);     
+
+		return menu;
+		
+	}
+	
+	private boolean tieneHijos(int indiceActual, String vtOpc[][]) {
+		
+		Pattern p = Pattern.compile("^" + vtOpc[indiceActual][0]+ ".*"); 
+		boolean resp = false;
+	    
+		if (indiceActual+1 < vtOpc.length){
+			Matcher m = p.matcher(vtOpc[indiceActual+1][0]); // get a matcher object
+			if (m.find()) {
+				resp = true;
+			} else {
+				resp = false;
+			}
+		}
+
+		return resp;
+	     
+	}
+
+	
+	
+	
 		/*public Collection listarUsuario()
 			throws Exception {
 			try {

@@ -22,8 +22,9 @@ public class PerfilProceso implements Serializable  {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer idPerfilProceso;
     
-    @Column(name="id_perfil")
-    private Integer idPerfil;
+	@ManyToOne
+	@JoinColumn(name="id_perfil")
+    private Perfil perfil;	
     
 	@ManyToOne
 	@JoinColumn(name="id_proceso")
@@ -33,11 +34,11 @@ public class PerfilProceso implements Serializable  {
 		super();
 	}
 
-	public PerfilProceso(Proceso proceso, Integer idPerfilProceso, Integer idPerfil){
+	public PerfilProceso(Proceso proceso, Integer idPerfilProceso, Perfil perfil){
 		
 		this.proceso = proceso;
 		this.idPerfilProceso =idPerfilProceso; 
-		this.idPerfil =  idPerfil;
+		this.perfil = perfil;
 	} 
 	
 	public Integer getIdPerfilProceso() {
@@ -48,14 +49,6 @@ public class PerfilProceso implements Serializable  {
 		this.idPerfilProceso = idPerfilProceso;
 	}
 
-	public Integer getIdPerfil() {
-		return idPerfil;
-	}
-
-	public void setIdPerfil(Integer idPerfil) {
-		this.idPerfil = idPerfil;
-	}
-
 	public Proceso getProceso() {
 		return proceso;
 	}
@@ -63,5 +56,14 @@ public class PerfilProceso implements Serializable  {
 	public void setProceso(Proceso proceso) {
 		this.proceso = proceso;
 	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	
 
 }

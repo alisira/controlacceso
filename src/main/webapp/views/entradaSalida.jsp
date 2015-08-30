@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -8,6 +7,7 @@
     var ultimoAcceso= new Date("${contenido.fechaHora}");
     actualiza_pagina(false);
 </script>
+
 <br>
 
 <form:form method="post" commandName="entradaSalida" name="entradaSalida">

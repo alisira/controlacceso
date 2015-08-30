@@ -56,8 +56,15 @@ public class loginController {
 	            Usuario usuario = sistemaFacade.validarUsuario(usuarioTemp);
 	        	if (usuario !=null){
 	        		if (usuario.getEstatus().equals("A")){
-	        			if (usuario.getPerfilUsuario().size() > 0){
-	        				vista = "principal.jsp";
+	        			if (usuario.getPerfilUsuario().size() > 0){	        				
+	        				String vtOpciones[][] = sistemaFacade.generarMenu(usuario);
+	        				String menu = sistemaFacade.generarMenu2(usuario);
+	        				System.out.println(menu);     
+
+	        				contenido.put("menu", vtOpciones);
+	        				contenido.put("menu2", menu);
+	        				//vista = "principal.jsp";
+	        				vista = "entradaSalida.jsp";
 	        			}else{
 	        				mensaje = "Usuario No Tiene un Rol Asociado, Comuníquese con el administrador";
 			            	contenido.put("mensaje", mensaje);
@@ -105,15 +112,12 @@ public class loginController {
 	        	//$resultado = $this->control_acceso_mod->insertarCA($cedula, $observacion, $fotoTXT, $id_instalacion);
 	                
 	                //$empleado = $this->empleado_mod->empleado($cedula);
-
-	    	    	
 	    	    	
 	                
 	            } else {
 	            	mensaje = "Usuario o contraseña invalida, Favor Revisar";
 	            	contenido.put("mensaje", mensaje);
-	            	vista = "login.jsp";
-	            	System.out.println("3994");
+	            	vista = "login.jsp";	            	
 	            }	        
 	        }
         
@@ -128,7 +132,7 @@ public class loginController {
 	    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Caracas"),l);
 	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
-	    	
+	    		    	
 	    	String js[] = {"jquery-2.1.4.min","jquery_menu", "menu_view", "comun"};        
 	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso", "theme"};
 	        

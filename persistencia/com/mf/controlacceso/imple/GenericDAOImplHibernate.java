@@ -16,11 +16,15 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.mf.controlacceso.dao.GenericDAO;
+import com.mf.controlacceso.modelo.sistema.PerfilProceso;
+import com.mf.controlacceso.modelo.sistema.Proceso;
 import com.mf.hibernate.util.HibernateUtil;
 
 
@@ -112,7 +116,7 @@ public class GenericDAOImplHibernate implements GenericDAO {
 		
     }
 
-    private Session asignaSession(Object entity){    	
+    public Session asignaSession(Object entity){
     	Session session = null;    	
     	SessionFactory sessionFactoryTemp = null;
 

@@ -1,119 +1,110 @@
 
-<% 
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.regex.Matcher"%>
+<%@ page import="java.util.regex.Pattern"%>
 
-	String rutaTemp = null;
-	String c="";
-	ValidadorSesion vs = new ValidadorSesion();
-	String fecha=null;
-	Locale l = new Locale("es","VE");
-	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Caracas"),l);
-	String titulo = "Sistema de Gestión Financiera de los Recursos Humanos";
+<% 	
 
-	if ((LoginSession)session.getAttribute("loginSession")!=null){
-		HttpServletRequest httpServletRequest = (HttpServletRequest)pageContext.getRequest();
-		if ( !((LoginSession)session.getAttribute("loginSession")).isValid() ) {
-			response.sendRedirect("/sigefirrhh/error.html");
-		}else{		
-			
-			rutaTemp = "/" + request.getRequestURI().split("/")[1];			
-			//System.out.println("URI del menu: " +request.getRequestURI());
+	Map conteMenu = (HashMap)request.getAttribute("contenido");
+	String vtOpciones[][] = (String[][]) conteMenu.get("menu");
 
-			ValidadorSesion b = new ValidadorSesion();
-			c = b.generarMenu(httpServletRequest);
-
-			c= c.replace("<ul id=\"xx\" class=\"xx\">", "<ul id=\"idmenu\" class=\"mnmenu\">");
-			c= c.replace("<li>", "<li class=\"level-0 middle last\">");
-			c= c.replace("<ul>", "<ul class=\"level-1\">");
-
-			String mes = "00".substring(String.valueOf((cal.get(Calendar.MONTH)+1)).length())+ String.valueOf((cal.get(Calendar.MONTH)+1)); 
-			String dia = "00".substring(String.valueOf((cal.get(Calendar.DATE)+1)).length())+ String.valueOf((cal.get(Calendar.DATE)+1));		
-			fecha =   dia + "/" +  mes  + "/" + String.valueOf(cal.get(Calendar.YEAR));			
-			
-			if (session.getAttribute("titulo")!=null) titulo = (String) session.getAttribute("titulo");
-			
-		}
 	
-	}else{
-		response.sendRedirect("/sigefirrhh/error.html");
-	}
+	String menu = "<ul id=\"xx\" class=\"xx\">";
 	
-	
-%>
-
-<html>
-	<head>
-		<title> <%=titulo %></title>
-		<script type="text/javascript" src="<%=rutaTemp %>/js/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="<%=rutaTemp %>/js/jquery.js"></script>
-		<script type="text/javascript" src="<%=rutaTemp %>/js/menu_view.js"></script>
-		<script language="javascript" src="<%=rutaTemp %>/js/comun.js"></script>
-	
-		<link type="text/css" rel="stylesheet" href="<%=rutaTemp %>/estilos/styleIE.css">
-		<link rel="stylesheet" href="<%=rutaTemp %>/estilos/comun.css" type="text/css" media="screen"/>
-		<link rel="stylesheet" href="<%=rutaTemp %>/estilos/theme.css" >		
+	for (int i=0; i<vtOpciones.length; i++) {
 		
-		<style type="text/css" media="print">
-			@media print {
-			#contenedor {display:none;}
-			#cintilloImagenes {display:none;}
-			#barraEstatus {display:none;}
+		
+		int indiceActual = i;
+		String vtOpc[][] = vtOpciones;
+		Pattern p = Pattern.compile("^" + vtOpc[indiceActual][0]+ ".*"); 
+		boolean resp = false;
+	    
+		if (indiceActual+1 < vtOpc.length){
+			Matcher m = p.matcher(vtOpc[indiceActual+1][0]); // get a matcher object
+			if (m.find()) {
+				resp = true;
+			} else {
+				resp = false;
 			}
-		</style>
-		
-	</head>
-
-	<body>
-
-		<table id="cintilloImagenes" width="100%" border="0" cellspacing="0" cellpadding="0">
-	    		<tr>
-			    <td align="left" width="100%">
-					<table width="100%"  border="0" cellspacing="0" cellpadding="0">
-						<tr>
-							<td width="22%" align="left">
-								<img src="<%=rutaTemp %>/images/logo-sigefirrhh-web.jpg" />
-							</td>
-							<td width="64%" align="center">
-								<img src="<%=((LoginSession)session.getAttribute("loginSession")).getURLNombre() %>" />
-							</td>
-							<td width="78%" align="right">						
-								<img src="<%=((LoginSession)session.getAttribute("loginSession")).getURLLogo() %>" />
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+		}
 		
 		
-		<div id="barraEstatus" class="contenedor_div">
+		
+		
+		if (resp == true) {				
+			menu += "<li>" + vtOpciones[i][1] +  "<ul>";
+		} else {
 			
-			<div class="contenedor_div_left" style="width: 23%;background: #dddddd none repeat scroll 0 0; border-bottom-left-radius: 10px;border-right: 2px solid #fff;border-top-left-radius: 10px; margin-left: 4px;color: #777777 !important;font-size: 12px;padding: 0px;">
-				<img style="vertical-align:middle;" width="30" height="30" src="<%=rutaTemp %>/images/user.png">
-				Usuario: <%=((LoginSession)session.getAttribute("loginSession")).getUsuarioObject().getNombres() + " " + ((LoginSession)session.getAttribute("loginSession")).getUsuarioObject().getApellidos() %>
-			</div>
-
-			<div class="contenedor_div_left" style="width: 6%;background: #eeeeee none repeat scroll 0 0; color: #777777 !important;font-size: 14px; padding: 7px; border-right: 2px solid #fff;">
-				<%=fecha%>
-			</div>
-
-			<div class="contenedor_div_left" style="width:58%;text-align: center; background: #eeeeee none repeat scroll 0 0; font-size: 20px; padding: 4px; border-right: 2px solid #fff;">
-				Sistema de Gesti&oacute;n Financiera de los Recursos Humanos
-			</div>
+			String rutaTemp = null;
+			rutaTemp = "/" + request.getRequestURI().split("/")[1] ;
 			
-			<div class="contenedor_div_left" style="width:9%;text-align: center;background: #dddddd none repeat scroll 0 0;border-bottom-right-radius: 10px;border-top-right-radius: 10px; color: #777777 !important; font-size: 14px; padding: 7px;">
-				<jsp:include page="/version.inc" />
-			</div>
-			
-		</div>
-		
-		
+			if (vtOpciones[i][2].indexOf(".do") != -1){
+				menu += "<li> <a href=\"" + rutaTemp+ "/" + vtOpciones[i][2] + "?accion=nuevo\" class=\"level-1\">";	
+			}else{
+				if (!vtOpciones[i][2].equals("")){
+					menu += "<li> <a href=\"" + rutaTemp+ "/" + vtOpciones[i][2] + ".jsf\" class=\"level-1\">";	
+				}else{
+					menu += "<li> <a href=\"" + rutaTemp+ "/" + "home.jsf\" class=\"level-1\">";
+				}
+			}					
+			menu += vtOpciones[i][1] + "</a></li>";
 
-<% 
-
+		}
+		
+		if (i+1 < vtOpciones.length){
+	    	 if (vtOpciones[i+1][0].length() < vtOpciones[i][0].length()){ 
+	    		 
+	    		 int cont = vtOpciones[i][0].split("\\.").length - vtOpciones[i+1][0].split("\\.").length ;
+	    		 for (int y=0; y<cont; y++) {
+	    			 menu +="</ul></li>";	 
+	    		 }
+	    	 }
+		}else if (i+1 == vtOpciones.length){
+	    	 if (vtOpciones[i][0].split("\\.").length > 1){
+		    		 
+	    		 int cont = vtOpciones[i][0].split("\\.").length-1 ;
+	    		 for (int y=0; y<cont; y++) {
+	    			 menu +="</ul></li>";	 
+	    		 }
+	    	 }
+	     }	
+		
+    }
+	
+	menu += "<li>"; 
+	menu += "<a class=\"level-1 level-3\" href=\"/sigefirrhh/logout.jsf\">&nbsp;&nbsp;Salir</a>";
+	menu += "</li>";
+	menu += "</ul>";
+	
+	
+	
+	menu= menu.replace("<ul id=\"xx\" class=\"xx\">", "<ul id=\"idmenu\" class=\"mnmenu\">");
+	menu= menu.replace("<li>", "<li class=\"level-0 middle last\">");
+	menu= menu.replace("<ul>", "<ul class=\"level-1\">");
+	
+	System.out.println("menu1 "+ menu);
+	
+	String menu2 = (String) conteMenu.get("menu2");
+	menu2= menu2.replace("<ul id=\"xx\" class=\"xx\">", "<ul id=\"idmenu\" class=\"mnmenu\">");
+	menu2= menu2.replace("<li>", "<li class=\"level-0 middle last\">");
+	menu2= menu2.replace("<ul>", "<ul class=\"level-1\">");
+	
+	System.out.println("menu2 "+ menu2);
+	
 %>
+		
+	<style type="text/css" media="print">
+		@media print {
+		#contenedor {display:none;}
+		#cintilloImagenes {display:none;}
+		#barraEstatus {display:none;}
+		}
+	</style>
+
 		<div id="contenedor" class="contenedor">		
 				<script type="text/javascript">
-					c= '<%=c%>';
-					document.write(c);
+					menu= '<%=menu%>';
+					document.write(menu);
 				</script>		
 		</div>	

@@ -163,16 +163,20 @@ public class SistemaFacade implements Serializable {
 			//System.out.println("cantidad de perfilusuario = " + usuario.getPerfilUsuario().size());
 
 			vtOpciones = new String[usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()][3]; 
+						
+			Proceso proTO = new Proceso();
+			proTO.setPerfilProceso(usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso());
+			ProcesoDAOImple procesoDAO = new ProcesoDAOImple();
+			List<Proceso> listaProceso = procesoDAO.procesoPerfil(proTO);
+			
 
-			for (int y=0;y< usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size();y++){					
+			for (int y=0;y< listaProceso.size();y++){					
 
-				//System.out.println("cantidad de perfilproceso = " + usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size());					
+				//System.out.println("cantidad de perfilproceso = " + usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size());
 
-				List<PerfilProceso> listaProceso = usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso();
-
-				vtOpciones[y][0] = listaProceso.get(y).getProceso().getJerarquia_menu().toString();
-				vtOpciones[y][1] = listaProceso.get(y).getProceso().getDenominacion().toString();
-				vtOpciones[y][2] = listaProceso.get(y).getProceso().getUrl().toString();
+				vtOpciones[y][0] = listaProceso.get(y).getJerarquia_menu().toString();
+				vtOpciones[y][1] = listaProceso.get(y).getDenominacion().toString();
+				vtOpciones[y][2] = listaProceso.get(y).getUrl().toString();
 
 				//System.out.println("este si: " + vtOpciones[y][1]);
 
@@ -187,16 +191,6 @@ public class SistemaFacade implements Serializable {
 			//System.out.println("este si: " + vtOpciones[y][1]);
 
 		}*/
-		
-		
-			//PerfilProceso perfilTO = new PerfilProceso();
-			//perfilTO.set
-			Proceso proTO = new Proceso();
-			proTO.setPerfilProceso(usuario.getPerfilUsuario().get(0).getPerfil().getPerfilProceso());
-			ProcesoDAOImple procesoDAO = new ProcesoDAOImple();
-			List<Proceso> ListaProceso1 = procesoDAO.procesoPerfil(proTO);
-			
-			
 			
 			//imprimir contenido of the array
 			

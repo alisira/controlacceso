@@ -45,7 +45,7 @@ public class InicioController {
     		ambiente  =  Configuracion.getAmbiente();  
     		reglaValidacion(null);
     		vista = "login.jsp";
-    		
+    		contenido.put("menu", null);
 	        
     	}catch (SQLException e){
     		logger.error("SQLException: ", e);

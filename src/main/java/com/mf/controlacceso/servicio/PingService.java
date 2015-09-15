@@ -16,7 +16,7 @@ public class PingService {
 		super();
 		try{
     		this.cxt = new InitialContext();
-    		this.ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/DBPoolSigefirrhh" );
+    		this.ds = (DataSource) cxt.lookup( "java:jboss/datasources/DBPoolSigefirrhh" );
     		
     	}catch (Exception e){
     		e.printStackTrace();

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -32,7 +34,8 @@ public class GenericDAOImplHibernate implements GenericDAO {
     
     private Map<String, SessionFactory> sessionFactory = new HashMap<String, SessionFactory>();
 
-    private final static Logger LOGGER = Logger.getLogger(GenericDAOImplHibernate.class.getName());
+    //private final static Logger LOGGER = Logger.getLogger(GenericDAOImplHibernate.class.getName());
+    protected final Log LOGGER = LogFactory.getLog(getClass());
 
     public GenericDAOImplHibernate() {
         sessionFactory=HibernateUtil.getSessionFactory();        
@@ -120,17 +123,29 @@ public class GenericDAOImplHibernate implements GenericDAO {
     	Session session = null;    	
     	SessionFactory sessionFactoryTemp = null;
 
-    	Iterator<String> it = sessionFactory.keySet().iterator();
+    	
+    	try{
+    		Iterator<String> it = sessionFactory.keySet().iterator();
 
-    	while(it.hasNext()){
-    		String bd = (String) it.next();
+        	while(it.hasNext()){
+        		String bd = (String) it.next();
 
-    		sessionFactoryTemp = sessionFactory.get(bd);
-    		if (sessionFactoryTemp.getClassMetadata(entity.getClass()) != null){
-    			session = sessionFactoryTemp.getCurrentSession();
-    			break;
-    		}
+        		sessionFactoryTemp = sessionFactory.get(bd);
+        		if (sessionFactoryTemp.getClassMetadata(entity.getClass()) != null){
+        			session = sessionFactoryTemp.getCurrentSession();
+        			break;
+        		}
+        	}
+        	
+        	if (session==null){
+        		throw (new RuntimeException("Clase: " + entity.getClass().getName() + " no mapeada favor corregir"));
+        	}
+
+    	}catch (Exception e){
+    		LOGGER.error("Exception: ", e);
     	}
+    	
+    	
     	
     	return session;
     }

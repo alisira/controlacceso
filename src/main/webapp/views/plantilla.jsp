@@ -3,7 +3,5 @@
 
 	<%@ include file="/views/menu.jsp"%>	
 
-
-
 <jsp:include page="${contenido.vista}" />
 <%@ include file="/views/footer.jsp" %>

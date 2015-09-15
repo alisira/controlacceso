@@ -2,6 +2,7 @@ package com.mf.springapp.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,12 +38,11 @@ public class InicioController {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();
-    	String vista = null;
-    	String ambiente = null;
+    	String vista = null;    	
     	String mensaje = "";
     	
     	try{
-    		ambiente  =  Configuracion.getAmbiente();  
+    		
     		reglaValidacion(null);
     		vista = "login.jsp";
     		contenido.put("menu", null);
@@ -59,17 +59,18 @@ public class InicioController {
         	vista = "resultado.jsp";
     	}finally{
     		Locale l = new Locale("es","VE");
+    		DecimalFormat twoDigits = new DecimalFormat("00");
 	    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Caracas"),l);
-	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
-	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
+	    	String hora = twoDigits.format(cal.get(Calendar.HOUR_OF_DAY)) + ":" + twoDigits.format(cal.get(Calendar.MINUTE)) + ":" + twoDigits.format(cal.get(Calendar.SECOND));
+	    	String fechaHora = twoDigits.format((cal.get(Calendar.MONTH)+1)) + " " + twoDigits.format(cal.get(Calendar.DATE)) + " " + cal.get(Calendar.YEAR) + " " + hora;
 
-	    	String js[] = {"jquery-2.1.4.min", "comun", "inicio"};        
+	    	String js[] = {"jquery-2.1.4.min", "inicio", "dateFormat", "jquery.dateFormat", "comun"};        
 	        String css[] = {"bootstrap", "global_admin" ,"styleIE"};
 	        
 	        contenido.put("tituloPagina", "Bienvenidos al SIGEFIRRHH version 5");
 	        contenido.put("js", js);
 	        contenido.put("css", css);
-	        contenido.put("ambiente", ambiente);
+	        contenido.put("ambiente", Configuracion.getAmbiente());
 	        contenido.put("vista", vista);
 	        contenido.put("fechaHora", fechaHora);
 	        contenido.put("mensaje", mensaje);
@@ -78,11 +79,9 @@ public class InicioController {
         return new ModelAndView("plantilla", "contenido", contenido);
     }
     
-    
     private boolean reglaValidacion(Map datos) throws SQLException{
 
     	PingService ps = new PingService();
-    	
     	ps.pingWebDB();    	
     	
     	return true;

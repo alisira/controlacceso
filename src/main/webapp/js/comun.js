@@ -1,9 +1,10 @@
 function getFecha(dateHour){
-	
+
 	fecha = new Date(dateHour);	
-	fecha = fecha.getDate() + "/" + (fecha.getMonth() +1) + "/" + fecha.getFullYear();		
 	
-    return fecha;
+	resp= $.format.date(fecha, 'MM/dd/yyyy');	
+	
+    return resp;
 }
 
 function getHora(dateHour){

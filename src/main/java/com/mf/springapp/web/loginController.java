@@ -24,12 +24,13 @@ import com.mf.controlacceso.dao.UsuarioDAO;
 import com.mf.controlacceso.facade.sistema.SistemaFacade;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
 import com.mf.controlacceso.modelo.sistema.Usuario;
+import com.mf.controlacceso.servicio.Configuracion;
 
 
 @Controller
 public class loginController {
 
-    protected final Log logger = LogFactory.getLog(getClass());
+    protected final Log LOGGER = LogFactory.getLog(getClass());
     private SistemaFacade sistemaFacade = new SistemaFacade();
 
     @RequestMapping(value="/login.htm")
@@ -58,11 +59,8 @@ public class loginController {
 	        		if (usuario.getEstatus().equals("A")){
 	        			if (usuario.getPerfilUsuario().size() > 0){	        				
 	        				String vtOpciones[][] = sistemaFacade.generarMenu(usuario);
-	        				String menu = sistemaFacade.generarMenu2(usuario);
-	        				System.out.println(menu);     
 
 	        				contenido.put("menu", vtOpciones);
-	        				contenido.put("menu2", menu);
 	        				//vista = "principal.jsp";
 	        				vista = "entradaSalida.jsp";
 	        			}else{
@@ -122,7 +120,7 @@ public class loginController {
 	        }
         
     	}catch (Exception e){
-    		logger.error("Exception: ", e);
+    		LOGGER.error("Exception: ", e);
     		String mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
         	contenido.put("mensaje", mensaje);
         	vista = "resultado.jsp";
@@ -133,14 +131,15 @@ public class loginController {
 	    	String hora = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
 	    		    	
-	    	String js[] = {"jquery-2.1.4.min","jquery_menu", "menu_view", "comun"};        
+	    	String js[] = {"jquery-2.1.4.min","jquery_menu", "menu_view", "dateFormat", "jquery.dateFormat", "comun"};
 	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso", "theme"};
 	        
 	        contenido.put("tituloPagina", "Control de Entrada y Salida del Personal");
 	        contenido.put("js", js);
 	        contenido.put("css", css);
 	        contenido.put("vista", vista);	        
-	        contenido.put("fechaHora", fechaHora);	        
+	        contenido.put("fechaHora", fechaHora);
+	        contenido.put("ambiente", Configuracion.getAmbiente());
     	}
     	
         return new ModelAndView("plantilla", "contenido", contenido);

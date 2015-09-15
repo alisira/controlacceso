@@ -31,7 +31,7 @@
 			</div>
 		</div>
 
-		<div class="container bg-container">
+		<div class="container bg-container"  style="min-height: 600px">
 			<div class="alert-info">
 
 				<table width="100%" border="0" cellspacing="2" cellpadding="0">

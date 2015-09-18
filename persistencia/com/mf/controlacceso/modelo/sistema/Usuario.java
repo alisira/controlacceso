@@ -72,7 +72,7 @@ public class Usuario implements Serializable  {
     private boolean administrador;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy="usuario",cascade= CascadeType.ALL)
-    private List<PerfilUsuario> perfilUsuario = new ArrayList<PerfilUsuario>();
+    private List<PerfilUsuario> perfilUsuario;
 
     public Usuario(){
 		
@@ -109,7 +109,7 @@ public Usuario(Integer idUsuario, String login,Integer cedula, String nombre,Str
 		
 	}
 
-	
+
 	public List<PerfilUsuario> getPerfilUsuario() {
 		return perfilUsuario;
 	}

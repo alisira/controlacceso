@@ -1,4 +1,4 @@
-package com.mf.controlacceso.servicio;
+package com.mf.controlacceso.sistema;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,7 +16,8 @@ public class PingService {
 		super();
 		try{
     		this.cxt = new InitialContext();
-    		this.ds = (DataSource) cxt.lookup( "java:jboss/datasources/DBPoolSigefirrhh" );
+    		//this.ds = (DataSource) cxt.lookup( "java:jboss/datasources/DBPoolSigefirrhh" );
+    		this.ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/DBPoolSigefirrhh" );
     		
     	}catch (Exception e){
     		e.printStackTrace();

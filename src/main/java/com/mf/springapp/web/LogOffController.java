@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -17,18 +19,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.imple.UsuarioDAOImple;
+import com.mf.controlacceso.modelo.sistema.Usuario;
 import com.mf.controlacceso.sistema.Configuracion;
 import com.mf.controlacceso.sistema.PingService;
 
 
 @Controller
-public class InicioController {
-	
-	protected transient final Log LOGGER = LogFactory.getLog(getClass());
+public class LogOffController {
 
-	@RequestMapping(value="/inicio.htm")
+	protected final Log logger = LogFactory.getLog(getClass());
+
+	@RequestMapping(value="/logOff.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	Map<String, Object> contenido = new HashMap<String, Object>();
@@ -42,12 +48,12 @@ public class InicioController {
     		contenido.put("menu", null);
 	        
     	}catch (SQLException e){
-    		LOGGER.error("SQLException: ", e);
+    		logger.error("SQLException: ", e);
     		mensaje = "Problema de Conexion con la Base de Datos favor notificar al administrador, gracias";
         	contenido.put("mensaje", mensaje);
         	vista = "resultado.jsp";
     	}catch (Exception e){
-    		LOGGER.error("Exception: ", e);
+    		logger.error("Exception: ", e);
     		mensaje = "Problema de Aplicación favor notificar al administrador, gracias";
         	contenido.put("mensaje", mensaje);
         	vista = "resultado.jsp";

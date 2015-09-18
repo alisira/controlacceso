@@ -19,6 +19,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="classes"/>
 	<classpathentry kind="src" path="persistencia"/>
+	<classpathentry kind="src" path="com.mf.controlacceso.sistema"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

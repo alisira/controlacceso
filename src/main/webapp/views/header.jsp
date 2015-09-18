@@ -31,7 +31,7 @@
 			</div>
 		</div>
 
-		<div class="container bg-container"  style="min-height: 600px">
+		<div class="container bg-container"  style="min-height: 462px">
 			<div class="alert-info">
 
 				<table width="100%" border="0" cellspacing="2" cellpadding="0">
@@ -39,16 +39,13 @@
 					<tr>
 						<td width="10%" class="sombra1">
 							<div align="right">
-								<strong>Ambiente:</strong>
+								Ambiente:
 							</div>
 						</td>
 
 						<td width="62%" class="sombra2">
 							<div align="left">
-								&nbsp;[
-								<c:out value="${contenido.ambiente}" />
-								]:
-
+								&nbsp;[<c:out value="${contenido.ambiente}" />]
 							</div>
 						</td>
 

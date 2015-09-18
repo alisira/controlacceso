@@ -6,6 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/classes"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/persistencia"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/com.mf.controlacceso.sistema"/>
         <property name="java-output-path" value="/controlacceso/target/classes"/>
         <property name="context-root" value="controlacceso"/>
     </wb-module>

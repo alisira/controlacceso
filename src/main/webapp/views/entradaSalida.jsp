@@ -35,7 +35,7 @@
 	    </tr>	
 	
 	    <tr>
-	        <td colspan="2" class="titulo01" align="center"><div class="titulo01" align="center" style="font-size:14px">
+	        <td colspan="2" class="titulo01" align="center"><div class="titulo01" align="center" style="font-size:22px">
 	            <div  class="alert-info">Control de Acceso de Empleados</div>
 	        </td>
 	    </tr>

@@ -1,17 +1,22 @@
 package com.mf.controlacceso.facade.sistema;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.mf.controlacceso.dao.ProcesoDAO;
+import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.imple.ProcesoDAOImple;
+import com.mf.controlacceso.imple.UsuarioDAOImple;
+import com.mf.controlacceso.modelo.sistema.Perfil;
+import com.mf.controlacceso.modelo.sistema.PerfilProceso;
+import com.mf.controlacceso.modelo.sistema.Proceso;
+import com.mf.controlacceso.modelo.sistema.Usuario;
+import com.mf.controlacceso.sistema.LoginSession;
+import com.mf.controlacceso.sistema.Rol;
+import com.mf.controlacceso.sistema.UsuarioRol;
+import com.mf.controlacceso.dominio.ProcesoDTO;
+import com.mf.controlacceso.dominio.UsuarioDTO;
 /*import sigefirrhh.login.LoginSession;
 import sigefirrhh.persistencia.dao.OpcionDAO;
 import sigefirrhh.persistencia.dao.imple.OpcionDAOImple;
@@ -19,21 +24,6 @@ import sigefirrhh.persistencia.modelo.CriterioBusqueda;
 import sigefirrhh.persistencia.modelo.Opcion;
 import sigefirrhh.sistema.UsuarioRol;
 */
-
-
-
-
-import com.mf.controlacceso.dao.GenericDAO;
-import com.mf.controlacceso.dao.PerfilDAO;
-import com.mf.controlacceso.dao.ProcesoDAO;
-import com.mf.controlacceso.dao.UsuarioDAO;
-import com.mf.controlacceso.imple.PerfilDAOImple;
-import com.mf.controlacceso.imple.ProcesoDAOImple;
-import com.mf.controlacceso.imple.UsuarioDAOImple;
-import com.mf.controlacceso.modelo.sistema.Perfil;
-import com.mf.controlacceso.modelo.sistema.PerfilProceso;
-import com.mf.controlacceso.modelo.sistema.Proceso;
-import com.mf.controlacceso.modelo.sistema.Usuario;
 
 /**
  * 
@@ -50,7 +40,7 @@ public class SistemaFacade implements Serializable {
 		userDAO = new UsuarioDAOImple();
 	}
 	
-	public void addUsuario(Usuario usuario)
+	public void addUsuario(UsuarioDTO usuario)
 			throws Exception {
 		try {
 
@@ -60,7 +50,7 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 	
-	public void guardarUsuario(Usuario usuario)
+	public void guardarUsuario(UsuarioDTO usuario)
 			throws Exception {
 		try {
 			//if(usuario.getActivo().equals("S") && usuario.getIntentos() > 0) usuario.setIntentos(0);		
@@ -72,7 +62,7 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 
-	public void borrarUsuario(Usuario usuario)
+	public void borrarUsuario(UsuarioDTO usuario)
 			throws Exception {
 		try {
 
@@ -82,7 +72,7 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 
-	public Usuario buscarUsuario(Usuario usuario)
+	public Usuario buscarUsuario(UsuarioDTO usuario)
 			throws Exception {
 		try {
 
@@ -107,52 +97,40 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 	
-	public Usuario validarUsuario(Usuario usuario){
-	//	try {
+	public UsuarioDTO validarUsuario(UsuarioDTO usuarioDTO){
+		//	try {
+		
+		
+		Usuario usuario = new Usuario();
+		usuario = (Usuario) ModeloUtil.llenarBean(usuarioDTO, usuario);
+		
+		usuario.setEstatus("A");
+		usuario.setLogin("asira");
+		List<Object> ListaUsuario = userDAO.listar(usuario);
+		//Usuario usuarioTemp2 = (Usuario) ListaUsuario.get(0); 
+		//System.out.println("PU: " + usuarioTemp2.getPerfilUsuario().size());
+		
+		
+		if (ListaUsuario.size() > 0){
 
-			List<Object> ListaUsuario = userDAO.listar(usuario);
-			if (ListaUsuario.size() > 0){
-				
-				Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
-				
-				/*System.out.println("Nombre: " + usuarioTemp.getNombre());
-				System.out.println("Size: " + usuarioTemp.getPerfilUsuario().size());
-				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getUsuario().getIdUsuario());
-				System.out.println(usuarioTemp.getPerfilUsuario().get(0).getPerfil().getDenominacion());
-				*/
-				
-				/*PerfilDAO perfilDAO = new PerfilDAOImple();
-				Perfil perfil = new Perfil();
-				perfil.setIdAplicacion(1);
-				List<Object> ListaPerfil = perfilDAO.listar(perfil);
-				Perfil perfilTemp = (Perfil) ListaPerfil.get(0);
-				System.out.println(perfilTemp.getDenominacion());
-				*/
-				
-				
-				ProcesoDAO procesoDAO = new ProcesoDAOImple();
-				Proceso proceso = new Proceso();
-				proceso.setIdProceso(1);
-				List<Object> ListaProceso = procesoDAO.listar(proceso);
-				Proceso procesoTemp = (Proceso) ListaProceso.get(0);
-				//System.out.println(procesoTemp.getAplicacion().getDescripcion());
-				//System.out.println(procesoTemp.getPerfilProceso().get(0).getPerfil().getDenominacion());
-				
-				
-				
-				
-				
-				return (Usuario) ListaUsuario.get(0) ;
-			}else{
-				return null;
-			}
+			Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
+
+			UsuarioDTO usuarioDTOTemp = usuarioDTO; 
+			//System.out.println("Perfil Usuario: " + usuarioDTO.getPerfilUsuario().size());
+			usuarioDTOTemp =  (UsuarioDTO) ModeloUtil.llenarBean(usuarioTemp, usuarioDTOTemp);
+
+
+			return usuarioDTOTemp;
+		}else{
+			return null;
+		}
 
 		//} finally {
 			//if (txn!=null) txn.close();
 		//}
 	}
 	
-	public String[][] generarMenu(Usuario usuario) {
+	public String[][] generarMenu(UsuarioDTO usuario) {
 
 		String vtOpciones[][] = null;
 
@@ -163,11 +141,13 @@ public class SistemaFacade implements Serializable {
 			//System.out.println("cantidad de perfilusuario = " + usuario.getPerfilUsuario().size());
 
 			vtOpciones = new String[usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()][3]; 
-						
-			Proceso proTO = new Proceso();
-			proTO.setPerfilProceso(usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso());
+
+			Proceso proceso = new Proceso();
+			Perfil perfil = new Perfil();
+			perfil = (Perfil) ModeloUtil.llenarBean(usuario.getPerfilUsuario().get(i).getPerfil(), perfil);
+			proceso.setPerfilProceso(perfil.getPerfilProceso());
 			ProcesoDAOImple procesoDAO = new ProcesoDAOImple();
-			List<Proceso> listaProceso = procesoDAO.procesoPerfil(proTO);
+			List<Proceso> listaProceso = procesoDAO.procesoPerfil(proceso);
 			
 
 			for (int y=0;y< listaProceso.size();y++){					
@@ -933,5 +913,42 @@ public class SistemaFacade implements Serializable {
 		}			
 	}
 	*/
+	public void setSession(UsuarioDTO usuario){
+		/*Organismo org = new Organismo();
+		org.setIdOrganismo(11);
+		
+		Usuario user = new Usuario();
+		user.setNombres("Ali");
+		user.setApellidos("Sira");
+			
+
+		LoginSession a= new LoginSession();
+		
+		a.setUsuarioObject(user);	
+		a.setUsuario("asira");
+		a.setOrganismo(org);
+		
+		List listaUsuarioRol = new ArrayList();	
+		
+		UsuarioRol usuarioRol = new UsuarioRol();
+		
+		Rol rol = new Rol();
+		rol.setCodigoRol("3");
+		rol.setIdRol(41);
+		rol.setNombre("ANALISTA COMPROMISO");
+
+		usuarioRol.setRol(rol);
+		usuarioRol.setIdUsuarioRol(31);
+		
+		//usuarioRol.setUsuario(usuario)
+		listaUsuarioRol.add(usuarioRol);
+
+		
+		a.setColUsuarioRol(listaUsuarioRol);
+		a.setAdministrador("N");
+		//System.out.println(listaUsuarioRol.size());	
+
+		session.setAttribute("loginSession",a);	*/
+	}
 	
 }

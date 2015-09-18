@@ -1,6 +1,7 @@
 package com.mf.springapp.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.dominio.PerfilProcesoDTO;
+import com.mf.controlacceso.dominio.PerfilUsuarioDTO;
+import com.mf.controlacceso.dominio.UsuarioDTO;
 import com.mf.controlacceso.facade.sistema.SistemaFacade;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
 import com.mf.controlacceso.modelo.sistema.Usuario;
-import com.mf.controlacceso.servicio.Configuracion;
+import com.mf.controlacceso.sistema.Configuracion;
 
 
 @Controller
@@ -49,20 +53,23 @@ public class loginController {
 	    	
 	        if (reglaValidacion(objetoValidacion)){
 	
-	            Usuario usuarioTemp = new Usuario();
-	            usuarioTemp.setLogin(loginTxt);
-	            usuarioTemp.setPassword(MD5(password));
-	            usuarioTemp.setEstatus("A");
-	        	
-	            Usuario usuario = sistemaFacade.validarUsuario(usuarioTemp);
+	            UsuarioDTO usuarioTo = new UsuarioDTO();
+	            usuarioTo.setLogin(loginTxt);
+	            usuarioTo.setPassword(MD5(password));
+	            usuarioTo.setEstatus("A");
+	            List<PerfilUsuarioDTO> ppDTO = new ArrayList<PerfilUsuarioDTO>();
+	            usuarioTo.setPerfilUsuario(ppDTO);
+
+	            UsuarioDTO usuario = sistemaFacade.validarUsuario(usuarioTo);
 	        	if (usuario !=null){
 	        		if (usuario.getEstatus().equals("A")){
-	        			if (usuario.getPerfilUsuario().size() > 0){	        				
+	        			if (usuario.getPerfilUsuario().size() > 0){
 	        				String vtOpciones[][] = sistemaFacade.generarMenu(usuario);
 
 	        				contenido.put("menu", vtOpciones);
-	        				//vista = "principal.jsp";
-	        				vista = "entradaSalida.jsp";
+	        				vista = "vacio.jsp";
+	        				contenido.put("vista", vista);
+
 	        			}else{
 	        				mensaje = "Usuario No Tiene un Rol Asociado, Comuníquese con el administrador";
 			            	contenido.put("mensaje", mensaje);
@@ -132,12 +139,12 @@ public class loginController {
 	    	String fechaHora = (cal.get(Calendar.MONTH)+1) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.YEAR) + " " + hora;
 	    		    	
 	    	String js[] = {"jquery-2.1.4.min","jquery_menu", "menu_view", "dateFormat", "jquery.dateFormat", "comun"};
-	        String css[] = {"bootstrap", "global_admin" ,"styleIE", "controlAcceso", "theme"};
+	        String css[] = {"bootstrap", "global_admin" ,"styleMenu", "controlAcceso", "theme"};
 	        
 	        contenido.put("tituloPagina", "Control de Entrada y Salida del Personal");
 	        contenido.put("js", js);
 	        contenido.put("css", css);
-	        contenido.put("vista", vista);	        
+	        //contenido.put("vista", vista);	        
 	        contenido.put("fechaHora", fechaHora);
 	        contenido.put("ambiente", Configuracion.getAmbiente());
     	}

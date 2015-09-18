@@ -1,4 +1,4 @@
-package com.mf.controlacceso.servicio;
+package com.mf.controlacceso.sistema;
 
 import java.io.FileReader;
 import java.util.Properties;

@@ -29,7 +29,7 @@ public class ModeloUtil {
 						&& !field.getName().toString().equals("getServletWrapper")){
 
 					Class clazz=destino.getClass();
-					Method m;
+					Method m = null;
 					Integer rInt = 0;
 					int rint;
 					String rStr = "";
@@ -151,6 +151,7 @@ public class ModeloUtil {
 										Class claseTempo = Class.forName("com.mf.controlacceso.dominio.PerfilUsuarioDTO");
 
 										
+										
 										llenarBean(rList.get(c), claseTempo.newInstance());
 										
 										//hacerlo manual practicamente jugar con los arrays no inicializados para saber cuando lo necesita o no
@@ -195,7 +196,37 @@ public class ModeloUtil {
 							
 							
 						}else{
+							
 							System.out.println("Error en metodo: " + field.getName().toString() + " falta tipos primitivos para: "+ field.getReturnType().toString());
+							
+							Method m1 = clazz.getDeclaredMethod("get"+field.getName().toString().substring(3));														
+							String [] claseDestino =  m1.getReturnType().toString().split("\\s+");
+							Object objetoDestino=(Object) Class.forName(claseDestino[1]).newInstance();
+
+							
+							llenarBean(field.invoke(fuente), objetoDestino);
+							
+							
+							/*
+							Class claseTempo = (listaSeparada[1]) Class.forName(listaSeparada[1]).newInstance();
+							Class<?> tempo1;
+							
+							tempo1= (Class.forName(listaSeparada[1])) field.invoke(fuente);
+							if (rBoolean!=null){
+								Class[] cArg = new Class[1];
+								cArg[0] = boolean.class;
+								m = clazz.getDeclaredMethod("set"+field.getName().toString().substring(3), cArg);
+								m.invoke(destino, rBoolean);								
+							}
+							*/
+							
+							//Class claseTempo = Class.forName("com.mf.controlacceso.dominio.PerfilUsuarioDTO");
+							
+							//llenarBean(rList.get(c), claseTempo.newInstance());
+							
+							//Error en metodo: getPerfil falta tipos primitivos para: class com.mf.controlacceso.modelo.sistema.Perfil
+							//Error en metodo: getUsuario falta tipos primitivos para: class com.mf.controlacceso.modelo.sistema.Usuario
+							
 						}
 
 					} catch (NoSuchMethodException e) {

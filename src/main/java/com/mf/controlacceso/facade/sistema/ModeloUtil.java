@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +52,10 @@ public class ModeloUtil {
 								m.invoke(destino, rInt);								
 							}
 						}else if (field.getReturnType().toString().equals("class java.lang.String")){
-							//Esta seccion realiza la conversion de la fuente que viene tipo string y la transforma al mismo tipo del destino
+							/*
+							 * Esta seccion realiza la conversion de la fuente que viene tipo string en caso de struts cuando los bean de fechas se cargan
+							 * en el form tipo string para que no de error en la recepcion cuando se hace el request 
+							 */
 							rStr= (String)field.invoke(fuente);
 							if (rStr!=null && !rStr.toString().equals("")){
 								//System.out.println(field.getName() +" - " + rStr);
@@ -127,85 +131,76 @@ public class ModeloUtil {
 								m = clazz.getDeclaredMethod("set"+field.getName().toString().substring(3), cArg);
 								m.invoke(destino, rBoolean);								
 							}
+							
+							
 						}else if (field.getReturnType().toString().equals("interface java.util.List")){
-							
-							//Invoca al metodo get de la lista destino si la lista no esta null pero sin valores es que desea que la llene
-							
+								
 							m = clazz.getDeclaredMethod(field.getName());
-							List listaGet = (List) m.invoke(destino);
-							if (listaGet != null){
-								System.out.println("tamaño del campo tipo list vacio: " + listaGet.size());
-								rList= (List)field.invoke(fuente);
-								if (rList!=null){
-									
-									
-									for( int c = 0 ; c < rList.size() ; c++ ){
-										System.out.println("Aqui deberia hacer una invocacion reciproca: " + rList.get(c).toString() );
-										
-										
-										Type tip = m.getGenericReturnType();
-										
-										String aa = tip.toString();
-										System.out.println(aa);
-										
-										Class claseTempo = Class.forName("com.mf.controlacceso.dominio.PerfilUsuarioDTO");
+							List listaDestino = (List) m.invoke(destino);
+							
+							if (listaDestino != null){
+								
+								List listaFuente = (List)field.invoke(fuente);
 
+								if (listaFuente!=null){
+								
+									List listaTempoFuente = new ArrayList();
+									for (int z = 0; z < listaFuente.size(); z++) {
 										
+										//getGenericReturnType obtiene el tipo de objetos que soporta la lista
+										String [] claseDestino =  m.getGenericReturnType().toString().split("<");
+										claseDestino =  claseDestino[1].toString().split(">");
+										Object objetoDestino=(Object) Class.forName(claseDestino[0]).newInstance();
+										if (z==listaDestino.size()){
+											
+											
+											Object objetoCasilla=(Object) Class.forName(claseDestino[0]).newInstance();
+											
+											ModeloUtil.llenarBean(listaFuente.get(0), objetoCasilla);
+											ModeloUtil.llenarBean(listaFuente.get(z), objetoCasilla);
+											listaTempoFuente.add(objetoCasilla);
+											
+
+											
+										}else{
+											objetoDestino =  (Object) ModeloUtil.llenarBean(listaFuente.get(z), listaDestino.get(z));
+											listaTempoFuente.add(objetoDestino);
+										}
 										
-										llenarBean(rList.get(c), claseTempo.newInstance());
-										
-										//hacerlo manual practicamente jugar con los arrays no inicializados para saber cuando lo necesita o no
-										
-										System.out.println("concluido");
 										
 									}
 									
-									/*Class[] cArg = new Class[1];
+									Class[] cArg = new Class[1];
 									cArg[0] = List.class;
-									m = clazz.getDeclaredMethod("set"+field.getName().toString().substring(3), cArg);
-									m.invoke(destino, rList);
-									*/								
+									//Estas dos lineas sirven para finalmente setear la lista en el objeto destino
+									Method metodoFinal = destino.getClass().getDeclaredMethod("set"+m.getName().toString().substring(3), cArg);
+									metodoFinal.invoke(destino, listaTempoFuente);
 								}
-								
-								
 								
 							}
 							
-							
-
-							
-							
-							/*System.out.println("Clase Fuente: " + fuente.getClass().getName() + " Antes de preguntar si esta vacio:" + field.getName());
-							m = clazz.getDeclaredMethod(field.getName());
-							List listaGet = (List) m.invoke(destino);
-							System.out.println("tamaño del campo tipo list vacio: " + listaGet.size());
-							
-							
-							rList= (List)field.invoke(fuente);
-							System.out.println("Metodo Fuente: " + field.getName().toString() + "Tamaño: "+ rList.size());
-							if (rList!=null){
-								Class[] cArg = new Class[1];
-								cArg[0] = List.class;
-								m = clazz.getDeclaredMethod("set"+field.getName().toString().substring(3), cArg);
-								m.invoke(destino, rList);								
-							}*/
-							
-							
-							
-							
-							
-							
 						}else{
 							
-							System.out.println("Error en metodo: " + field.getName().toString() + " falta tipos primitivos para: "+ field.getReturnType().toString());
+							System.out.println("Error en metodo: " + field.getName().toString() + " falta tipos primitivos para: "+ field.getReturnType().toString());							
+							//la version del 19/09/15 tiene el codigo para intentar hacer la reciprocidad							
 							
-							Method m1 = clazz.getDeclaredMethod("get"+field.getName().toString().substring(3));														
-							String [] claseDestino =  m1.getReturnType().toString().split("\\s+");
-							Object objetoDestino=(Object) Class.forName(claseDestino[1]).newInstance();
+							m = destino.getClass().getDeclaredMethod(field.getName());
+							Object objectDestino = (Object) m.invoke(destino);
+							
+							if (objectDestino != null){
+								Object objectoFuente = (Object)field.invoke(fuente);
 
+								if (objectoFuente!=null){
+									System.out.println( field.getName().toString() + " No esta vacio");
+									 ModeloUtil.llenarBean(objectoFuente, objectDestino);
+								}
 							
-							llenarBean(field.invoke(fuente), objetoDestino);
+								//String [] claseDestino =  m.getReturnType().toString().split("\\s+");
+								//Object objetoDestino=(Object) Class.forName(claseDestino[1]).newInstance();
+							}
+								
 							
+							//llenarBean(field.invoke(fuente), objetoDestino);							
 							
 							/*
 							Class claseTempo = (listaSeparada[1]) Class.forName(listaSeparada[1]).newInstance();
@@ -227,6 +222,14 @@ public class ModeloUtil {
 							//Error en metodo: getPerfil falta tipos primitivos para: class com.mf.controlacceso.modelo.sistema.Perfil
 							//Error en metodo: getUsuario falta tipos primitivos para: class com.mf.controlacceso.modelo.sistema.Usuario
 							
+							
+							
+							
+							
+							
+							
+							
+							
 						}
 
 					} catch (NoSuchMethodException e) {
@@ -245,10 +248,11 @@ public class ModeloUtil {
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
 					} catch (ClassCastException e) {
+						e.printStackTrace();				
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					} catch (InstantiationException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

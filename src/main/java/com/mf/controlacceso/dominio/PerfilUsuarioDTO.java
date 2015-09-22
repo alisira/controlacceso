@@ -2,12 +2,16 @@ package com.mf.controlacceso.dominio;
 
 import java.io.Serializable;
 
-public class PerfilUsuarioDTO implements Serializable{
+public class PerfilUsuarioDTO implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 5734099761179063113L;
 	private Integer idPerfilUsuario;
 	private UsuarioDTO usuario;
     private PerfilDTO perfil;
+    
+    public PerfilUsuarioDTO clone() throws CloneNotSupportedException {
+        return (PerfilUsuarioDTO) super.clone();
+    }
     
 	public Integer getIdPerfilUsuario() {
 		return idPerfilUsuario;

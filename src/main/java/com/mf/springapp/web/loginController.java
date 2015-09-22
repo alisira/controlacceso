@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mf.controlacceso.dao.UsuarioDAO;
+import com.mf.controlacceso.dominio.PerfilDTO;
 import com.mf.controlacceso.dominio.PerfilProcesoDTO;
 import com.mf.controlacceso.dominio.PerfilUsuarioDTO;
 import com.mf.controlacceso.dominio.UsuarioDTO;
@@ -57,7 +58,11 @@ public class loginController {
 	            usuarioTo.setLogin(loginTxt);
 	            usuarioTo.setPassword(MD5(password));
 	            usuarioTo.setEstatus("A");
-	            List<PerfilUsuarioDTO> ppDTO = new ArrayList<PerfilUsuarioDTO>();
+	            List<PerfilUsuarioDTO> ppDTO = new ArrayList<PerfilUsuarioDTO>();   
+	            PerfilDTO perfilDTO = new PerfilDTO();
+	            PerfilUsuarioDTO perfilUsuarioDTO = new PerfilUsuarioDTO();
+	            perfilUsuarioDTO.setPerfil(perfilDTO);
+	            ppDTO.add(perfilUsuarioDTO);	            
 	            usuarioTo.setPerfilUsuario(ppDTO);
 
 	            UsuarioDTO usuario = sistemaFacade.validarUsuario(usuarioTo);

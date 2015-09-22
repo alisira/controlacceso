@@ -28,8 +28,8 @@ public class PerfilDTO implements Serializable  {
 	private Integer idAplicacion;
     private String estatus;    
 
-    private List<PerfilUsuarioDTO> perfilUsuario = new ArrayList<PerfilUsuarioDTO>();
-    private List<PerfilProcesoDTO> perfilProceso = new ArrayList<PerfilProcesoDTO>();
+    private List<PerfilUsuarioDTO> perfilUsuario;
+    private List<PerfilProcesoDTO> perfilProceso;
     
     PerfilDTO(Integer idPerfil, String denominacion, Integer idAplicacion, String estatus){
     	this.idPerfil = idPerfil;

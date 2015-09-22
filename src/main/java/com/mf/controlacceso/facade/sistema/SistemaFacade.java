@@ -1,6 +1,9 @@
 package com.mf.controlacceso.facade.sistema;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,36 +101,92 @@ public class SistemaFacade implements Serializable {
 	}
 	
 	public UsuarioDTO validarUsuario(UsuarioDTO usuarioDTO){
-		//	try {
 		
-		
-		Usuario usuario = new Usuario();
-		usuario = (Usuario) ModeloUtil.llenarBean(usuarioDTO, usuario);
-		
-		usuario.setEstatus("A");
-		usuario.setLogin("asira");
-		List<Object> ListaUsuario = userDAO.listar(usuario);
-		//Usuario usuarioTemp2 = (Usuario) ListaUsuario.get(0); 
-		//System.out.println("PU: " + usuarioTemp2.getPerfilUsuario().size());
-		
-		
-		if (ListaUsuario.size() > 0){
+		UsuarioDTO usuarioDTOTemp=null;
+		try {
 
-			Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
+			Usuario usuario = new Usuario();
+			usuario = (Usuario) ModeloUtil.llenarBean(usuarioDTO, usuario);
 
-			UsuarioDTO usuarioDTOTemp = usuarioDTO; 
-			//System.out.println("Perfil Usuario: " + usuarioDTO.getPerfilUsuario().size());
-			usuarioDTOTemp =  (UsuarioDTO) ModeloUtil.llenarBean(usuarioTemp, usuarioDTOTemp);
+			List<Object> ListaUsuario = userDAO.listar(usuario);
 
+			if (ListaUsuario.size() > 0){
 
-			return usuarioDTOTemp;
-		}else{
-			return null;
+				Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
+
+				usuarioDTOTemp = usuarioDTO; 
+				//Llena los atributos primitivos
+				usuarioDTOTemp =  (UsuarioDTO) ModeloUtil.llenarBean(usuarioTemp, usuarioDTOTemp);
+
+				/*
+				//Empieza a buscar los atributos no primitivos aqui solo estoy preguntando por las listas
+				Method metodos[] = usuarioDTO.getClass().getMethods();
+				//itera sobre todos los metodos
+				for (int i = 0; i < metodos.length; i++) {
+					//Guarda el metodo actual
+					Method metodoDestino = metodos[i];        	
+
+					//verifica si es un metodo get
+					if (metodoDestino.getName().indexOf("get") > -1){
+						//System.out.println(field.getName() +" - "+field.getReturnType()+" - "+field.getModifiers() +" - "+field.getDefaultValue() +" - "+field.getGenericReturnType());
+
+						//verifica que no sea alguno de estos metodos por estar exceptuados
+						if (!metodoDestino.getName().toString().equals("getClass") && !metodoDestino.getName().toString().equals("getMultipartRequestHandler")
+								&& !metodoDestino.getName().toString().equals("getServletWrapper")){
+
+							
+							System.out.println(metodoDestino.getName() +" - "+metodoDestino.getReturnType()+" - "+metodoDestino.getModifiers() +" - "+metodoDestino.getDefaultValue() +" - "+metodoDestino.getGenericReturnType());
+
+							if (metodoDestino.getReturnType().toString().equals("interface java.util.List")){
+								List listaDestino = null;
+
+								listaDestino = (List) metodoDestino.invoke(usuarioDTO);
+
+								if (listaDestino != null){
+									
+									List listaFuente = null;
+									Method metodoFuente = usuarioTemp.getClass().getDeclaredMethod("get"+metodoDestino.getName().toString().substring(3));
+									listaFuente = (List) metodoFuente.invoke(usuarioTemp);
+
+									List listaTempoFuente = new ArrayList();
+									for (int z = 0; z < listaFuente.size(); z++) {
+										
+										//getGenericReturnType obtiene el tipo de objetos que soporta la lista
+										String [] claseDestino =  metodoDestino.getGenericReturnType().toString().split("<");
+										claseDestino =  claseDestino[1].toString().split(">");
+										Object objetoDestino=(Object) Class.forName(claseDestino[0]).newInstance();
+										objetoDestino =  (Object) ModeloUtil.llenarBean(listaFuente.get(z), objetoDestino);
+										listaTempoFuente.add(objetoDestino);
+									}
+									
+									Class[] cArg = new Class[1];
+									cArg[0] = List.class;
+									//Estas dos lineas sirven para finalmente setear la lista en el objeto destino
+									Method metodoFinal = usuarioDTOTemp.getClass().getDeclaredMethod("set"+metodoDestino.getName().toString().substring(3), cArg);
+									metodoFinal.invoke(usuarioDTOTemp, listaTempoFuente);
+								}
+							}
+						}
+					}
+				}*/
+
+			}else{
+				usuarioDTOTemp= null;
+			}
+
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassCastException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		//} finally {
-			//if (txn!=null) txn.close();
-		//}
+		return usuarioDTOTemp;
+
 	}
 	
 	public String[][] generarMenu(UsuarioDTO usuario) {

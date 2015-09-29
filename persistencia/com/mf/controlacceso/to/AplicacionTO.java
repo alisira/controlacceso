@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo.sistema;
+package com.mf.controlacceso.to;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="aplicacion")
-public class Aplicacion implements Serializable  {
+public class AplicacionTO implements Serializable  {
 
 	private static final long serialVersionUID = -4682833874808260783L;
 
@@ -34,25 +34,25 @@ public class Aplicacion implements Serializable  {
     @Column(name="descripcion")
     private String descripcion;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="aplicacion",cascade= CascadeType.ALL)
-    private List<Proceso> proceso = new ArrayList<Proceso>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="aplicacionTO",cascade= CascadeType.ALL)
+    private List<ProcesoTO> procesoTO = new ArrayList<ProcesoTO>();
     
-    public Aplicacion(Integer idAplicacion, String nombre, String estatus, String descripcion){
+    public AplicacionTO(Integer idAplicacion, String nombre, String estatus, String descripcion){
     	this.idAplicacion =idAplicacion ;
     	this.nombre= nombre;
     	this.estatus = estatus;
     	this.descripcion =descripcion;
     }
     
-    public Aplicacion(){    	
+    public AplicacionTO(){    	
     }
 
-	public List<Proceso> getProceso() {
-		return proceso;
+	public List<ProcesoTO> getProceso() {
+		return procesoTO;
 	}
 
-	public void setProceso(List<Proceso> proceso) {
-		this.proceso = proceso;
+	public void setProceso(List<ProcesoTO> procesoTO) {
+		this.procesoTO = procesoTO;
 	}
 
 	public Integer getIdAplicacion() {

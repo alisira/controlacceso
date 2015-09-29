@@ -2,9 +2,9 @@ package com.mf.controlacceso.dao;
 
 import java.util.List;
 
-import com.mf.controlacceso.modelo.sistema.Proceso;
+import com.mf.controlacceso.to.ProcesoTO;
 
 public interface ProcesoDAO extends GenericDAO {
 	
-	public List<Proceso> procesoPerfil(Proceso proceso);
+	public List<ProcesoTO> procesoPerfil(ProcesoTO procesoTO);
 }

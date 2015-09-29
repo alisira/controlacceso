@@ -25,8 +25,8 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.mf.controlacceso.dao.GenericDAO;
-import com.mf.controlacceso.modelo.sistema.PerfilProceso;
-import com.mf.controlacceso.modelo.sistema.Proceso;
+import com.mf.controlacceso.to.PerfilProcesoTO;
+import com.mf.controlacceso.to.ProcesoTO;
 import com.mf.hibernate.util.HibernateUtil;
 
 

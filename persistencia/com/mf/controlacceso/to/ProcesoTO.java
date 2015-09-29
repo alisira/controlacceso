@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo.sistema;
+package com.mf.controlacceso.to;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="proceso")
-public class Proceso implements Serializable  {
+public class ProcesoTO implements Serializable  {
 	
 	private static final long serialVersionUID = 351734763231876102L;
 
@@ -47,32 +47,32 @@ public class Proceso implements Serializable  {
     
 	@ManyToOne( cascade= CascadeType.ALL)
 	@JoinColumn(name="id_aplicacion")
-	private Aplicacion aplicacion;
+	private AplicacionTO aplicacionTO;
 	
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="proceso", cascade= CascadeType.ALL)
-    private List<PerfilProceso> perfilProceso = new ArrayList<PerfilProceso>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="procesoTO", cascade= CascadeType.ALL)
+    private List<PerfilProcesoTO> perfilProcesoTO = new ArrayList<PerfilProcesoTO>();
 	
-	public Proceso(Integer idProceso, String denominacion , String estatus, String descripcion, String url, String jerarquia_menu, String ruta_menu, Aplicacion aplicacion){
-		this.idProceso=idProceso; 
-		this.denominacion =denominacion; 
-		this.estatus=estatus; 
-		this.descripcion=descripcion; 
-		this.url=url; 
-		this.jerarquia_menu=jerarquia_menu; 
-		this.ruta_menu=ruta_menu; 
-		this.aplicacion = aplicacion;			
+	public ProcesoTO(Integer idProceso, String denominacion , String estatus, String descripcion, String url, String jerarquia_menu, String ruta_menu, AplicacionTO aplicacionTO){
+		this.idProceso=idProceso;
+		this.denominacion =denominacion;
+		this.estatus=estatus;
+		this.descripcion=descripcion;
+		this.url=url;
+		this.jerarquia_menu=jerarquia_menu;
+		this.ruta_menu=ruta_menu;
+		this.aplicacionTO = aplicacionTO;
 	}	
 
-	public Proceso(){
+	public ProcesoTO(){
 		
 	}
 
-	public List<PerfilProceso> getPerfilProceso() {
-		return perfilProceso;
+	public List<PerfilProcesoTO> getPerfilProceso() {
+		return perfilProcesoTO;
 	}
 
-	public void setPerfilProceso(List<PerfilProceso> perfilProceso) {
-		this.perfilProceso = perfilProceso;
+	public void setPerfilProceso(List<PerfilProcesoTO> perfilProcesoTO) {
+		this.perfilProcesoTO = perfilProcesoTO;
 	}
 
 	public Integer getIdProceso() {
@@ -131,12 +131,12 @@ public class Proceso implements Serializable  {
 		this.ruta_menu = ruta_menu;
 	}
 
-	public Aplicacion getAplicacion() {
-		return aplicacion;
+	public AplicacionTO getAplicacion() {
+		return aplicacionTO;
 	}
 
-	public void setAplicacion(Aplicacion aplicacion) {
-		this.aplicacion = aplicacion;
+	public void setAplicacion(AplicacionTO aplicacionTO) {
+		this.aplicacionTO = aplicacionTO;
 	}
 
 

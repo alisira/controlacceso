@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo.sistema;
+package com.mf.controlacceso.to;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="perfil_usuario")
-public class PerfilUsuario implements Serializable{
+public class PerfilUsuarioTO implements Serializable{
 
 	private static final long serialVersionUID = 5108781693702443115L;
 
@@ -23,28 +23,28 @@ public class PerfilUsuario implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="id_usuario")
-	private Usuario usuario;
+	private UsuarioTO usuarioTO;
  
 	@ManyToOne
 	@JoinColumn(name="id_perfil")
-    private Perfil perfil;
+    private PerfilTO perfilTO;
     
-	public PerfilUsuario(){
+	public PerfilUsuarioTO(){
 		super();
 	}
     
-	public PerfilUsuario(Usuario usuario, Integer idPerfilUsuario, Perfil perfil){		
-		this.usuario = usuario;
+	public PerfilUsuarioTO(UsuarioTO usuarioTO, Integer idPerfilUsuario, PerfilTO perfilTO){		
+		this.usuarioTO = usuarioTO;
 		this.idPerfilUsuario =idPerfilUsuario; 
-		this.perfil =  perfil;
+		this.perfilTO =  perfilTO;
 	}    
 
-	public Usuario getUsuario() {
-		return usuario;
+	public UsuarioTO getUsuario() {
+		return usuarioTO;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuario(UsuarioTO usuarioTO) {
+		this.usuarioTO = usuarioTO;
 	}
 
 	public Integer getIdPerfilUsuario() {
@@ -55,12 +55,12 @@ public class PerfilUsuario implements Serializable{
 		this.idPerfilUsuario = idPerfilUsuario;
 	}
 
-	public Perfil getPerfil() {
-		return perfil;
+	public PerfilTO getPerfil() {
+		return perfilTO;
 	}
 
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
+	public void setPerfil(PerfilTO perfilTO) {
+		this.perfilTO = perfilTO;
 	}
 	
 }

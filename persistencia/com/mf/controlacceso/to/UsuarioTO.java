@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo.sistema;
+package com.mf.controlacceso.to;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="usuario")
-public class Usuario implements Serializable  {
+public class UsuarioTO implements Serializable  {
     
 	private static final long serialVersionUID = 5837444858026193720L;
 
@@ -71,14 +71,14 @@ public class Usuario implements Serializable  {
     @Column(name="administrador")
     private boolean administrador;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="usuario",cascade= CascadeType.ALL)
-    private List<PerfilUsuario> perfilUsuario;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="usuarioTO",cascade= CascadeType.ALL)
+    private List<PerfilUsuarioTO> perfilUsuarioTO;
 
-    public Usuario(){
+    public UsuarioTO(){
 		
 	}
     
-public Usuario(Integer idUsuario, String login,Integer cedula, String nombre,String apellido
+public UsuarioTO(Integer idUsuario, String login,Integer cedula, String nombre,String apellido
 
 ,String password
 ,String unidad_funcional
@@ -110,12 +110,12 @@ public Usuario(Integer idUsuario, String login,Integer cedula, String nombre,Str
 	}
 
 
-	public List<PerfilUsuario> getPerfilUsuario() {
-		return perfilUsuario;
+	public List<PerfilUsuarioTO> getPerfilUsuario() {
+		return perfilUsuarioTO;
 	}
 	
-	public void setPerfilUsuario(List<PerfilUsuario> perfilUsuario) {
-		this.perfilUsuario = perfilUsuario;
+	public void setPerfilUsuario(List<PerfilUsuarioTO> perfilUsuarioTO) {
+		this.perfilUsuarioTO = perfilUsuarioTO;
 	}
 
 	public Integer getIdUsuario() {

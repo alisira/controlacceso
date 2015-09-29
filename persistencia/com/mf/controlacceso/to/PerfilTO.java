@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo.sistema;
+package com.mf.controlacceso.to;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="perfil")
-public class Perfil implements Serializable  {
+public class PerfilTO implements Serializable  {
 
 	private static final long serialVersionUID = 9193451386166929186L;
 
@@ -37,20 +37,20 @@ public class Perfil implements Serializable  {
     @Column(name="estatus")
     private String estatus;    
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="perfil", cascade= CascadeType.ALL)
-    private List<PerfilUsuario> perfilUsuario = new ArrayList<PerfilUsuario>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="perfilTO", cascade= CascadeType.ALL)
+    private List<PerfilUsuarioTO> perfilUsuarioTO = new ArrayList<PerfilUsuarioTO>();
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="perfil", cascade= CascadeType.ALL)
-    private List<PerfilProceso> perfilProceso = new ArrayList<PerfilProceso>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="perfilTO", cascade= CascadeType.ALL)
+    private List<PerfilProcesoTO> perfilProcesoTO = new ArrayList<PerfilProcesoTO>();
     
-    Perfil(Integer idPerfil, String denominacion, Integer idAplicacion, String estatus){
+    PerfilTO(Integer idPerfil, String denominacion, Integer idAplicacion, String estatus){
     	this.idPerfil = idPerfil;
     	this.denominacion=denominacion;
     	this.idAplicacion=idAplicacion;
     	this.estatus=estatus;
     }
     
-    public Perfil(){
+    public PerfilTO(){
     	super();
     }
 
@@ -86,20 +86,20 @@ public class Perfil implements Serializable  {
 		this.estatus = estatus;
 	}
 
-	public List<PerfilUsuario> getPerfilUsuario() {
-		return perfilUsuario;
+	public List<PerfilUsuarioTO> getPerfilUsuario() {
+		return perfilUsuarioTO;
 	}
 
-	public void setPerfilUsuario(List<PerfilUsuario> perfilUsuario) {
-		this.perfilUsuario = perfilUsuario;
+	public void setPerfilUsuario(List<PerfilUsuarioTO> perfilUsuarioTO) {
+		this.perfilUsuarioTO = perfilUsuarioTO;
 	}
 
-	public List<PerfilProceso> getPerfilProceso() {
-		return perfilProceso;
+	public List<PerfilProcesoTO> getPerfilProceso() {
+		return perfilProcesoTO;
 	}
 
-	public void setPerfilProceso(List<PerfilProceso> perfilProceso) {
-		this.perfilProceso = perfilProceso;
+	public void setPerfilProceso(List<PerfilProcesoTO> perfilProcesoTO) {
+		this.perfilProcesoTO = perfilProcesoTO;
 	}
 
 	

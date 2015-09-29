@@ -1,32 +1,13 @@
 package com.mf.controlacceso.facade.sistema;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.mf.controlacceso.dao.ProcesoDAO;
 import com.mf.controlacceso.dao.UsuarioDAO;
 import com.mf.controlacceso.imple.ProcesoDAOImple;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
-import com.mf.controlacceso.modelo.sistema.Perfil;
-import com.mf.controlacceso.modelo.sistema.PerfilProceso;
-import com.mf.controlacceso.modelo.sistema.Proceso;
-import com.mf.controlacceso.modelo.sistema.Usuario;
-import com.mf.controlacceso.sistema.LoginSession;
-import com.mf.controlacceso.sistema.Rol;
-import com.mf.controlacceso.sistema.UsuarioRol;
-import com.mf.controlacceso.dominio.ProcesoDTO;
-import com.mf.controlacceso.dominio.UsuarioDTO;
-/*import sigefirrhh.login.LoginSession;
-import sigefirrhh.persistencia.dao.OpcionDAO;
-import sigefirrhh.persistencia.dao.imple.OpcionDAOImple;
-import sigefirrhh.persistencia.modelo.CriterioBusqueda;
-import sigefirrhh.persistencia.modelo.Opcion;
-import sigefirrhh.sistema.UsuarioRol;
-*/
+import com.mf.controlacceso.to.ProcesoTO;
+import com.mf.controlacceso.to.UsuarioTO;
 
 /**
  * 
@@ -43,7 +24,7 @@ public class SistemaFacade implements Serializable {
 		userDAO = new UsuarioDAOImple();
 	}
 	
-	public void addUsuario(UsuarioDTO usuario)
+	public void addUsuario(UsuarioTO usuario)
 			throws Exception {
 		try {
 
@@ -53,7 +34,7 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 	
-	public void guardarUsuario(UsuarioDTO usuario)
+	public void guardarUsuario(UsuarioTO usuario)
 			throws Exception {
 		try {
 			//if(usuario.getActivo().equals("S") && usuario.getIntentos() > 0) usuario.setIntentos(0);		
@@ -65,7 +46,7 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 
-	public void borrarUsuario(UsuarioDTO usuario)
+	public void borrarUsuario(UsuarioTO usuario)
 			throws Exception {
 		try {
 
@@ -75,12 +56,12 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 
-	public Usuario buscarUsuario(UsuarioDTO usuario)
+	public UsuarioTO buscarUsuario(UsuarioTO usuario)
 			throws Exception {
 		try {
 
 			List<Object> ListaUsuario = userDAO.listar(usuario);
-			Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
+			UsuarioTO usuarioTemp = (UsuarioTO) ListaUsuario.get(0); 
 			
 			/* Usuario user = new Usuario();
 	    		UsuarioDAO usuarioDAO = new UsuarioDAOImple();	    		
@@ -89,10 +70,6 @@ public class SistemaFacade implements Serializable {
 			 
 			System.out.println("Nombre: " + usuarioTemp.getNombre());
 			System.out.println("Size: " + usuarioTemp.getPerfilUsuario().size());
-			
-			
-			
-			
 
 			return usuarioTemp;
 		} finally {
@@ -100,78 +77,18 @@ public class SistemaFacade implements Serializable {
 		}
 	}
 	
-	public UsuarioDTO validarUsuario(UsuarioDTO usuarioDTO){
+	public UsuarioTO validarUsuario(UsuarioTO usuarioTO){
 		
-		UsuarioDTO usuarioDTOTemp=null;
+		
+		// falta validar cuales son los campos minimos que se deben setear
+		UsuarioTO usuarioTOResul=null;
 		try {
 
-			Usuario usuario = new Usuario();
-			usuario = (Usuario) ModeloUtil.llenarBean(usuarioDTO, usuario);
-
-			List<Object> ListaUsuario = userDAO.listar(usuario);
+			List<Object> ListaUsuario = userDAO.listar(usuarioTO);
 
 			if (ListaUsuario.size() > 0){
 
-				Usuario usuarioTemp = (Usuario) ListaUsuario.get(0); 
-
-				usuarioDTOTemp = usuarioDTO; 
-				//Llena los atributos primitivos
-				usuarioDTOTemp =  (UsuarioDTO) ModeloUtil.llenarBean(usuarioTemp, usuarioDTOTemp);
-
-				/*
-				//Empieza a buscar los atributos no primitivos aqui solo estoy preguntando por las listas
-				Method metodos[] = usuarioDTO.getClass().getMethods();
-				//itera sobre todos los metodos
-				for (int i = 0; i < metodos.length; i++) {
-					//Guarda el metodo actual
-					Method metodoDestino = metodos[i];        	
-
-					//verifica si es un metodo get
-					if (metodoDestino.getName().indexOf("get") > -1){
-						//System.out.println(field.getName() +" - "+field.getReturnType()+" - "+field.getModifiers() +" - "+field.getDefaultValue() +" - "+field.getGenericReturnType());
-
-						//verifica que no sea alguno de estos metodos por estar exceptuados
-						if (!metodoDestino.getName().toString().equals("getClass") && !metodoDestino.getName().toString().equals("getMultipartRequestHandler")
-								&& !metodoDestino.getName().toString().equals("getServletWrapper")){
-
-							
-							System.out.println(metodoDestino.getName() +" - "+metodoDestino.getReturnType()+" - "+metodoDestino.getModifiers() +" - "+metodoDestino.getDefaultValue() +" - "+metodoDestino.getGenericReturnType());
-
-							if (metodoDestino.getReturnType().toString().equals("interface java.util.List")){
-								List listaDestino = null;
-
-								listaDestino = (List) metodoDestino.invoke(usuarioDTO);
-
-								if (listaDestino != null){
-									
-									List listaFuente = null;
-									Method metodoFuente = usuarioTemp.getClass().getDeclaredMethod("get"+metodoDestino.getName().toString().substring(3));
-									listaFuente = (List) metodoFuente.invoke(usuarioTemp);
-
-									List listaTempoFuente = new ArrayList();
-									for (int z = 0; z < listaFuente.size(); z++) {
-										
-										//getGenericReturnType obtiene el tipo de objetos que soporta la lista
-										String [] claseDestino =  metodoDestino.getGenericReturnType().toString().split("<");
-										claseDestino =  claseDestino[1].toString().split(">");
-										Object objetoDestino=(Object) Class.forName(claseDestino[0]).newInstance();
-										objetoDestino =  (Object) ModeloUtil.llenarBean(listaFuente.get(z), objetoDestino);
-										listaTempoFuente.add(objetoDestino);
-									}
-									
-									Class[] cArg = new Class[1];
-									cArg[0] = List.class;
-									//Estas dos lineas sirven para finalmente setear la lista en el objeto destino
-									Method metodoFinal = usuarioDTOTemp.getClass().getDeclaredMethod("set"+metodoDestino.getName().toString().substring(3), cArg);
-									metodoFinal.invoke(usuarioDTOTemp, listaTempoFuente);
-								}
-							}
-						}
-					}
-				}*/
-
-			}else{
-				usuarioDTOTemp= null;
+				usuarioTOResul = (UsuarioTO) ListaUsuario.get(0);
 			}
 
 		} catch (IllegalArgumentException e) {
@@ -183,43 +100,45 @@ public class SistemaFacade implements Serializable {
 		} catch (ClassCastException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 
-		return usuarioDTOTemp;
+		return usuarioTOResul;
 
 	}
 	
-	public String[][] generarMenu(UsuarioDTO usuario) {
+	public String[][] generarMenu(UsuarioTO usuario) {
 
 		String vtOpciones[][] = null;
-
-		//System.out.println("Entro en generarMenu");			
-
+		
+		ProcesoDAOImple procesoDAO1 = new ProcesoDAOImple();
+		List<ProcesoTO> listaProceso1 = procesoDAO1.procesoPerfil(usuario.getPerfilUsuario());
+	
 		for (int i=0;i< usuario.getPerfilUsuario().size();i++){
 
 			//System.out.println("cantidad de perfilusuario = " + usuario.getPerfilUsuario().size());
 
-			vtOpciones = new String[usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()][3]; 
-
-			Proceso proceso = new Proceso();
-			Perfil perfil = new Perfil();
-			perfil = (Perfil) ModeloUtil.llenarBean(usuario.getPerfilUsuario().get(i).getPerfil(), perfil);
-			proceso.setPerfilProceso(perfil.getPerfilProceso());
-			ProcesoDAOImple procesoDAO = new ProcesoDAOImple();
-			List<Proceso> listaProceso = procesoDAO.procesoPerfil(proceso);
+			vtOpciones = new String[usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()][3];
 			
+			if (usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size()>0){
+				ProcesoTO proTO = new ProcesoTO();
+	 			proTO.setPerfilProceso(usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso());
+	 			ProcesoDAOImple procesoDAO = new ProcesoDAOImple();
+	 			List<ProcesoTO> listaProceso = procesoDAO.procesoPerfil(proTO);
+				
 
-			for (int y=0;y< listaProceso.size();y++){					
+				for (int y=0;y< listaProceso.size();y++){					
 
-				//System.out.println("cantidad de perfilproceso = " + usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size());
+					//System.out.println("cantidad de perfilproceso = " + usuario.getPerfilUsuario().get(i).getPerfil().getPerfilProceso().size());
 
-				vtOpciones[y][0] = listaProceso.get(y).getJerarquia_menu().toString();
-				vtOpciones[y][1] = listaProceso.get(y).getDenominacion().toString();
-				vtOpciones[y][2] = listaProceso.get(y).getUrl().toString();
+					vtOpciones[y][0] = listaProceso.get(y).getJerarquia_menu().toString();
+					vtOpciones[y][1] = listaProceso.get(y).getDenominacion().toString();
+					vtOpciones[y][2] = listaProceso.get(y).getUrl().toString();
 
-				//System.out.println("este si: " + vtOpciones[y][1]);
+					//System.out.println("este si: " + vtOpciones[y][1]);
 
+				}
 			}
+			
 		}
 			
 			
@@ -972,7 +891,7 @@ public class SistemaFacade implements Serializable {
 		}			
 	}
 	*/
-	public void setSession(UsuarioDTO usuario){
+	public void setSession(UsuarioTO usuario){
 		/*Organismo org = new Organismo();
 		org.setIdOrganismo(11);
 		

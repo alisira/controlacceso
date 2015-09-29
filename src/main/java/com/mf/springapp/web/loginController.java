@@ -22,14 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mf.controlacceso.dao.UsuarioDAO;
-import com.mf.controlacceso.dominio.PerfilDTO;
-import com.mf.controlacceso.dominio.PerfilProcesoDTO;
-import com.mf.controlacceso.dominio.PerfilUsuarioDTO;
-import com.mf.controlacceso.dominio.UsuarioDTO;
 import com.mf.controlacceso.facade.sistema.SistemaFacade;
 import com.mf.controlacceso.imple.UsuarioDAOImple;
-import com.mf.controlacceso.modelo.sistema.Usuario;
 import com.mf.controlacceso.sistema.Configuracion;
+import com.mf.controlacceso.to.UsuarioTO;
 
 
 @Controller
@@ -54,22 +50,16 @@ public class loginController {
 	    	
 	        if (reglaValidacion(objetoValidacion)){
 	
-	            UsuarioDTO usuarioTo = new UsuarioDTO();
-	            usuarioTo.setLogin(loginTxt);
-	            usuarioTo.setPassword(MD5(password));
-	            usuarioTo.setEstatus("A");
-	            List<PerfilUsuarioDTO> ppDTO = new ArrayList<PerfilUsuarioDTO>();   
-	            PerfilDTO perfilDTO = new PerfilDTO();
-	            PerfilUsuarioDTO perfilUsuarioDTO = new PerfilUsuarioDTO();
-	            perfilUsuarioDTO.setPerfil(perfilDTO);
-	            ppDTO.add(perfilUsuarioDTO);	            
-	            usuarioTo.setPerfilUsuario(ppDTO);
-
-	            UsuarioDTO usuario = sistemaFacade.validarUsuario(usuarioTo);
-	        	if (usuario !=null){
-	        		if (usuario.getEstatus().equals("A")){
-	        			if (usuario.getPerfilUsuario().size() > 0){
-	        				String vtOpciones[][] = sistemaFacade.generarMenu(usuario);
+	            UsuarioTO usuarioTO = new UsuarioTO();
+	            usuarioTO.setLogin(loginTxt);
+	            usuarioTO.setPassword(MD5(password));
+	            usuarioTO.setEstatus("A");
+	            
+	            usuarioTO = sistemaFacade.validarUsuario(usuarioTO);
+	        	if (usuarioTO !=null){
+	        		if (usuarioTO.getEstatus().equals("A")){
+	        			if (usuarioTO.getPerfilUsuario().size() > 0){
+	        				String vtOpciones[][] = sistemaFacade.generarMenu(usuarioTO);
 
 	        				contenido.put("menu", vtOpciones);
 	        				vista = "vacio.jsp";

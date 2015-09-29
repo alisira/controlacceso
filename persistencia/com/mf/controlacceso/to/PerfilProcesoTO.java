@@ -1,4 +1,4 @@
-package com.mf.controlacceso.modelo.sistema;
+package com.mf.controlacceso.to;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="perfil_proceso")
-public class PerfilProceso implements Serializable  {
+public class PerfilProcesoTO implements Serializable  {
 
 	private static final long serialVersionUID = -6186051262696498313L;
 
@@ -24,21 +24,21 @@ public class PerfilProceso implements Serializable  {
     
 	@ManyToOne
 	@JoinColumn(name="id_perfil")
-    private Perfil perfil;	
+    private PerfilTO perfilTO;	
     
 	@ManyToOne
 	@JoinColumn(name="id_proceso")
-    private Proceso proceso;
+    private ProcesoTO procesoTO;
 	
-	public PerfilProceso(){
+	public PerfilProcesoTO(){
 		super();
 	}
 
-	public PerfilProceso(Proceso proceso, Integer idPerfilProceso, Perfil perfil){
+	public PerfilProcesoTO(ProcesoTO procesoTO, Integer idPerfilProceso, PerfilTO perfilTO){
 		
-		this.proceso = proceso;
+		this.procesoTO = procesoTO;
 		this.idPerfilProceso =idPerfilProceso; 
-		this.perfil = perfil;
+		this.perfilTO = perfilTO;
 	} 
 	
 	public Integer getIdPerfilProceso() {
@@ -49,20 +49,20 @@ public class PerfilProceso implements Serializable  {
 		this.idPerfilProceso = idPerfilProceso;
 	}
 
-	public Proceso getProceso() {
-		return proceso;
+	public ProcesoTO getProceso() {
+		return procesoTO;
 	}
 
-	public void setProceso(Proceso proceso) {
-		this.proceso = proceso;
+	public void setProceso(ProcesoTO procesoTO) {
+		this.procesoTO = procesoTO;
 	}
 
-	public Perfil getPerfil() {
-		return perfil;
+	public PerfilTO getPerfil() {
+		return perfilTO;
 	}
 
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
+	public void setPerfil(PerfilTO perfilTO) {
+		this.perfilTO = perfilTO;
 	}
 	
 

@@ -39,4 +39,6 @@ ALTER TABLE proceso ALTER COLUMN denominacion TYPE character varying(90);
 ALTER TABLE perfil_proceso ALTER COLUMN priuse DROP NOT NULL;
 ALTER TABLE proceso ALTER COLUMN jerarquia_menu set NOT NULL;
 ALTER TABLE proceso ALTER COLUMN jerarquia_menu TYPE character varying;
+ALTER TABLE perfil_proceso  ADD UNIQUE (id_perfil, id_proceso);
+
 
